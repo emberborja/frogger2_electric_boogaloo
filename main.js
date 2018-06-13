@@ -15,6 +15,21 @@ var lives = 3;
 var posX = 220;
 var posY = 540;
 
+// TODO
+    // onREadyState function
+        // Load background and frog in starting position
+        // Object movement function
+        // Collision function
+        // Reset function
+        // Play function
+            // Allows frog movement from user input
+            // Refreshes score
+            // Run collision function
+
+
+
+
+
 
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
@@ -46,6 +61,8 @@ function drawBackground() {
     ctx.fillText('SCORE', 10, 18);
 
     ctx.fillText('HIGH SCORE', 300, 18);
+
+    // TODO: Take out of drawBackground and move to game logic or whatever function runs continuously
     ctx.fillText('' + score + '', 10, 35);
     ctx.fillText('' + highScore + '', 300, 35);
 }
@@ -53,7 +70,9 @@ function drawBackground() {
 // TODO: What is this doing?
 function animate() {
     requestAnimationFrame(animate);
-    c.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    drawBackground();
+    play();
 }
 
 // Initialize the game
@@ -62,8 +81,6 @@ function play() {
 
     ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
 
-
-    ctx.fillText('HIGH SCORE', 250, 18);
     ctx.fillText('' + score + '', 10, 38);
     ctx.fillText('' + highScore + '', 250, 38);
 
@@ -103,5 +120,4 @@ function move(keypress) {
     }
 }
 
-drawBackground();
-play();
+animate();
