@@ -1,25 +1,30 @@
+// Initialize canvas element
 var game = document.getElementById('game');
 var ctx = game.getContext('2d');
+
+// Include sprites
 var sprites = new Image();
 sprites.src = 'assets/frogger-sprites.png';
+
+// Set score variables
 var score = 0;
 var highScore = 0;
+var lives = 3;
 
-var frogPos = {
-    posX: undefined,
-    posY: undefined
-};
+// Frog position
+var posX = 220;
+var posY = 540;
 
+
+// Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
     function(event) {
         var keypress = event.keyCode;
-        move();
+        move(keypress);
     })
 
-var lives = 3;
-
-
-function paint() {
+// Render background
+function drawBackground() {
 
     ctx.fillStyle = '#4d94ff';
     ctx.fillRect(0, 40, 440, 240);
@@ -30,6 +35,7 @@ function paint() {
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
     ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
+
 
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, 440, 40);
@@ -44,17 +50,17 @@ function paint() {
     ctx.fillText('' + highScore + '', 300, 35);
 }
 
-paint();
-
-
+// TODO: What is this doing?
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0, 0, innerWidth, innerHeight);
 }
 
+// Initialize the game
 function play() {
-    this.posX = 220;
-    this.posY = 540;
+
+
+    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
 
 
     ctx.fillText('HIGH SCORE', 250, 18);
@@ -73,22 +79,29 @@ function play() {
     }
 
     ctx.drawImage(sprites, 80, 262, 27, 28, 200, 500, 27, 28);
-
-
-
 }
 
-function move() {
+// Frog movement
+function move(keypress) {
+    console.log(keypress);
     if (keypress == 37) {
-        frogPos[posX] -= 40;
+        posX -= 40;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        console.log(posX);
     }
     if (keypress == 38) {
-        frogPos[posY] -= 40;
+        posY -= 40;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
     if (keypress == 39) {
-        frogPos[posX] += 40;
+        posX += 40;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
     if (keypress == 40) {
-        frogPos[posY] += 40;
+        posY += 40;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
 }
+
+drawBackground();
+play();
