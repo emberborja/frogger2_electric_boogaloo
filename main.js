@@ -26,10 +26,49 @@ var posY = 540;
             // Refreshes score
             // Run collision function
 
+// TODO: What is this doing?
+function animate() {
+    // infinite loop
+    requestAnimationFrame(animate);
+    // clears the canvas everytime infinite loop runs
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // calls these functions everytime the infinite loop runs
+    drawBackground();
+    // draws the frog with it's new position values
+    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);  
+    // draws the obstacles
+    obstacles();
+    // checks game logic
+    gameLogic();
+}
 
+// Render background
+function drawBackground() {
+    // water
+    ctx.fillStyle = '#4d94ff';
+    ctx.fillRect(0, 40, 440, 240);
+    // road
+    ctx.fillStyle = '#404040';
+    ctx.fillRect(0, 320, 440, 200);
+    // safe zone bottom
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
+    // safe zone middle
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
+    // grass
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
+    // top black stripe
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, 440, 40);
+    // bottom black stripe
+    ctx.fillRect(0, 560, 440, 40);
+    //  Score and high score text
+    ctx.font = 'bold 24px VT323';
+    ctx.fillStyle = "white";
+    ctx.fillText('SCORE', 10, 18);
+    ctx.fillText('HIGH SCORE', 300, 18);
+}
 
-
-
+// FROG ANIMATIONS
 
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
@@ -37,66 +76,6 @@ window.addEventListener('keydown',
         var keypress = event.keyCode;
         move(keypress);
     })
-
-// Render background
-function drawBackground() {
-
-    ctx.fillStyle = '#4d94ff';
-    ctx.fillRect(0, 40, 440, 240);
-
-    ctx.fillStyle = '#404040';
-    ctx.fillRect(0, 320, 440, 200);
-
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
-
-
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 440, 40);
-    ctx.fillRect(0, 560, 440, 40);
-
-    ctx.font = 'bold 24px VT323';
-    ctx.fillStyle = "white";
-    ctx.fillText('SCORE', 10, 18);
-
-    ctx.fillText('HIGH SCORE', 300, 18);
-
-    // TODO: Take out of drawBackground and move to game logic or whatever function runs continuously
-    ctx.fillText('' + score + '', 10, 35);
-    ctx.fillText('' + highScore + '', 300, 35);
-}
-
-// TODO: What is this doing?
-function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    drawBackground();
-    play();
-}
-
-// Initialize the game
-function play() {
-
-
-    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
-
-    ctx.fillText('' + score + '', 10, 38);
-    ctx.fillText('' + highScore + '', 250, 38);
-
-    if (lives == 3) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 65, 565, 30, 22);
-    } else if (lives == 2) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
-    } else if (lives == 1) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
-    }
-
-    ctx.drawImage(sprites, 80, 262, 27, 28, 200, 500, 27, 28);
-}
 
 // Frog movement
 function move(keypress) {
@@ -120,4 +99,28 @@ function move(keypress) {
     }
 }
 
+// OBSTACLE ANIMATIONS
+function obstacles() {
+    ctx.drawImage(sprites, 80, 262, 27, 28, 200, 480, 27, 28);
+}
+
+
+// GAME LOGIC   
+function gameLogic() {
+    ctx.fillText('' + score + '', 10, 38);
+    ctx.fillText('' + highScore + '', 300, 38);
+    
+    if (lives == 3) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 65, 565, 30, 22);
+    } else if (lives == 2) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
+    } else if (lives == 1) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+    }
+}
+
 animate();
+
