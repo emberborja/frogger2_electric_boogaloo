@@ -15,6 +15,12 @@ var lives = 3;
 var posX = 220;
 var posY = 540;
 
+// obstacle variables
+    // first row: car
+    var firstRowCarPositionX = 450;
+    var firstRowCarVelocity = 1;
+
+
 // TODO
     // onREadyState function
         // Load background and frog in starting position
@@ -101,7 +107,12 @@ function move(keypress) {
 
 // OBSTACLE ANIMATIONS
 function obstacles() {
-    ctx.drawImage(sprites, 80, 262, 27, 28, 200, 480, 27, 28);
+    // draws the car obstacle for the first row
+    ctx.drawImage(sprites, 80, 262, 27, 28, this.firstRowCarPositionX, 480, 27, 28);
+    this.firstRowCarPositionX -= this.firstRowCarVelocity;
+    if(this.firstRowCarPositionX < -35){
+        this.firstRowCarPositionX = 450;
+    }
 }
 
 
