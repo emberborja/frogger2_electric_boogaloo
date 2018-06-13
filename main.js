@@ -130,7 +130,15 @@ function gameLogic() {
     if (score < currentScore) {
         score = currentScore;
     }
-    
+
+    if (window.localStorage['highScore']) {
+        highScore = localStorage['highScore'];
+    } else highScore = 0;
+    if (score > highScore) {
+        localStorage['highScore'] = score;
+        highScore = score;
+    }
+
     ctx.fillText('' + score + '', 10, 38);
     ctx.fillText('' + highScore + '', 300, 38);
 
@@ -147,8 +155,10 @@ function gameLogic() {
 }
 
 
-function isDead() {
+// function isDead() {
+//
+// }
 
-}
+
 
 animate();
