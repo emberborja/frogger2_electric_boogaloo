@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
 /* * {
     margin: 0;
     padding: 0;
 } */
+
+body {
+    font-family: 'VT323', monospace;
+}
 
 canvas {
     border: 1px solid black;
