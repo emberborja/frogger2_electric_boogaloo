@@ -10,6 +10,10 @@ sprites.src = 'assets/frogger-sprites.png';
 var score = 0;
 var highScore = 0;
 var lives = 3;
+    // Variable to hold current high score to display as 'score'. This way the
+    // player cannot score by going backward and forward over and over in the
+    // same place.
+var currentScore = 0;
 
 // Frog position
 var posX = 200;
@@ -88,6 +92,7 @@ function move(keypress) {
     if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        currentScore += 10;
     }
     if (keypress == 39 && isMoveValid(posX+32, posY)) {
         posX += 32;
@@ -96,7 +101,7 @@ function move(keypress) {
     if (keypress == 40 && isMoveValid(posX, posY+40)) {
         posY += 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
-
+        currentScore -= 10;
     }
 }
 
@@ -121,6 +126,11 @@ function obstacles() {
 
 // GAME LOGIC
 function gameLogic() {
+    // If statement to only display highest currentScore
+    if (score < currentScore) {
+        score = currentScore;
+    }
+    
     ctx.fillText('' + score + '', 10, 38);
     ctx.fillText('' + highScore + '', 300, 38);
 
@@ -136,5 +146,9 @@ function gameLogic() {
     }
 }
 
+
+function isDead() {
+
+}
 
 animate();
