@@ -87,7 +87,6 @@ function move(keypress) {
     if (keypress == 37 && isMoveValid(posX-32, posY)) {
         posX -= 32;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
-        console.log(posX);
     }
     if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
