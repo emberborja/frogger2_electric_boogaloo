@@ -12,8 +12,8 @@ var highScore = 0;
 var lives = 3;
 
 // Frog position
-var posX = 220;
-var posY = 540;
+var posX = 200;
+var posY = 530;
 
 // TODO
     // onREadyState function
@@ -77,8 +77,6 @@ function animate() {
 
 // Initialize the game
 function play() {
-
-
     ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
 
     ctx.fillText('' + score + '', 10, 38);
@@ -95,29 +93,41 @@ function play() {
         ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
     }
 
-    ctx.drawImage(sprites, 80, 262, 27, 28, 200, 500, 27, 28);
+    ctx.drawImage(sprites, 80, 262, 27, 28, 220, 480, 27, 28);
 }
 
 // Frog movement
 function move(keypress) {
-    console.log(keypress);
-    if (keypress == 37) {
-        posX -= 40;
+
+    if (keypress == 37 && isMoveValid(posX-32, posY)) {
+        posX -= 32;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
         console.log(posX);
     }
-    if (keypress == 38) {
+    if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
-    if (keypress == 39) {
-        posX += 40;
+    if (keypress == 39 && isMoveValid(posX+32, posY)) {
+        posX += 32;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
-    if (keypress == 40) {
+    if (keypress == 40 && isMoveValid(posX, posY+40)) {
         posY += 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+
     }
 }
+
+// Check if proposed move is valid (on screen)
+function isMoveValid(x,y) {
+    if (x > 2 && x < 420 && y > 45 && y < 560 ) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 
 animate();
