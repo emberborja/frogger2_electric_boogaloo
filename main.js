@@ -4,6 +4,7 @@ var sprites = new Image();
 sprites.src = 'assets/frogger-sprites.png';
 var score = 0;
 var highScore = 0;
+var lives = 3;
 
 function paint() {
 
@@ -21,12 +22,24 @@ function paint() {
     ctx.fillRect(0, 0, 440, 40);
     ctx.fillRect(0, 560, 440, 40);
 
-    ctx.font = '25px VT323';
+    ctx.font = 'bold 24px VT323';
     ctx.fillStyle = "white";
     ctx.fillText('SCORE', 10, 18);
-    ctx.fillText('HIGH SCORE', 300, 18);
-    ctx.fillText(''+ score +'',10, 35);
-    ctx.fillText(''+highScore+'', 300, 35);
+    ctx.fillText('HIGH SCORE', 250, 18);
+    ctx.fillText(''+ score +'',10, 38);
+    ctx.fillText(''+highScore+'', 250, 38);
+
+    if (lives == 3){
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 65, 565, 30, 22);
+    } else if(lives == 2) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
+    } else if(lives == 1) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+    }
+    
 }
 
 paint();
