@@ -13,6 +13,7 @@ function paint() {
 
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
 
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, 600, 40);
