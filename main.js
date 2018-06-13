@@ -10,10 +10,14 @@ sprites.src = 'assets/frogger-sprites.png';
 var score = 0;
 var highScore = 0;
 var lives = 3;
+    // Variable to hold current high score to display as 'score'. This way the
+    // player cannot score by going backward and forward over and over in the
+    // same place.
+var currentScore = 0;
 
 // Frog position
-var posX = 220;
-var posY = 540;
+var posX = 200;
+var posY = 530;
 
 // TODO
     // onREadyState function
@@ -35,7 +39,7 @@ function animate() {
     // calls these functions everytime the infinite loop runs
     drawBackground();
     // draws the frog with it's new position values
-    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);  
+    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
     // draws the obstacles
     obstacles();
     // checks game logic
@@ -79,25 +83,39 @@ window.addEventListener('keydown',
 
 // Frog movement
 function move(keypress) {
-    console.log(keypress);
-    if (keypress == 37) {
-        posX -= 40;
+
+    if (keypress == 37 && isMoveValid(posX-32, posY)) {
+        posX -= 32;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
-        console.log(posX);
     }
-    if (keypress == 38) {
+    if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        currentScore += 10;
     }
-    if (keypress == 39) {
-        posX += 40;
+    if (keypress == 39 && isMoveValid(posX+32, posY)) {
+        posX += 32;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
-    if (keypress == 40) {
+    if (keypress == 40 && isMoveValid(posX, posY+40)) {
         posY += 40;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        currentScore -= 10;
     }
 }
+
+
+// Check if proposed move is valid (on screen)
+function isMoveValid(x,y) {
+    if (x > 2 && x < 420 && y > 45 && y < 560 ) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+
 
 // OBSTACLE ANIMATIONS
 function obstacles() {
@@ -105,11 +123,24 @@ function obstacles() {
 }
 
 
-// GAME LOGIC   
+// GAME LOGIC
 function gameLogic() {
+    // If statement to only display highest currentScore
+    if (score < currentScore) {
+        score = currentScore;
+    }
+
+    if (window.localStorage['highScore']) {
+        highScore = localStorage['highScore'];
+    } else highScore = 0;
+    if (score > highScore) {
+        localStorage['highScore'] = score;
+        highScore = score;
+    }
+
     ctx.fillText('' + score + '', 10, 38);
     ctx.fillText('' + highScore + '', 300, 38);
-    
+
     if (lives == 3) {
         ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
         ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
@@ -122,5 +153,11 @@ function gameLogic() {
     }
 }
 
-animate();
 
+// function isDead() {
+//
+// }
+
+
+
+animate();
