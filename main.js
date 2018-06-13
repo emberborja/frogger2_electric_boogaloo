@@ -72,6 +72,9 @@ function play() {
         ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
     }
 
+    ctx.drawImage(sprites, 80, 262, 27, 28, 200, 500, 27, 28);
+
+
 
 }
 
