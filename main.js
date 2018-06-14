@@ -51,6 +51,8 @@ function animate() {
     // If collion occurs draw deathSprite in that position
     else {
         ctx.drawImage(deathSprite, posX, posY, 30, 22)
+        // After 3 seconds run reset function
+        window.setTimeout(reset(), 3000);
     }
 
     // draws the obstacles
@@ -141,16 +143,16 @@ function isMoveValid(x,y) {
 
 
 var obstacleArray = [
-    new Obstacle(sprites, 80, 262, 27, 28, 450, 480, 27, 28, 'left', 'slow'),
-    new Obstacle(sprites, 70, 300, 30, 23, -50, 440, 30, 23, 'right', 'slow'),
-    new Obstacle(sprites, 10, 265, 30, 23, 450, 400, 30, 23, 'left', 'medium'),
-    new Obstacle(sprites, 45, 263, 30, 27, -50, 360, 30, 27, 'right', 'medium'),
-    new Obstacle(sprites, 105, 300, 50, 21, 480, 320, 50, 21, 'left', 'fast'),
-    new Obstacle(sprites, 14, 405, 33, 25, 450, 240, 33, 25, 'left', 'slow'),
-    new Obstacle(sprites, 6, 228, 87, 24, -100, 200, 87, 24, 'right', 'slow'),
-    new Obstacle(sprites, 6, 164, 181, 24, -300, 160, 181, 24, 'right', 'fast'),
-    new Obstacle(sprites, 14, 405, 33, 25, 450, 120, 33, 25, 'left', 'fast'),
-    new Obstacle(sprites, 6, 196, 120, 24, -160, 80, 120, 24, 'right', 'medium')
+    new Obstacle(sprites, 80, 262, 27, 28, 450, 490, 27, 28, 'left', 'slow'),
+    new Obstacle(sprites, 70, 300, 30, 23, -50, 450, 30, 23, 'right', 'slow'),
+    new Obstacle(sprites, 10, 265, 30, 23, 450, 410, 30, 23, 'left', 'medium'),
+    new Obstacle(sprites, 45, 263, 30, 27, -50, 370, 30, 27, 'right', 'medium'),
+    new Obstacle(sprites, 105, 300, 50, 21, 480, 330, 50, 21, 'left', 'fast'),
+    new Obstacle(sprites, 14, 405, 33, 25, 450, 250, 33, 25, 'left', 'slow'),
+    new Obstacle(sprites, 6, 228, 87, 24, -100, 210, 87, 24, 'right', 'slow'),
+    new Obstacle(sprites, 6, 164, 181, 24, -300, 170, 181, 24, 'right', 'fast'),
+    new Obstacle(sprites, 14, 405, 33, 25, 450, 130, 33, 25, 'left', 'fast'),
+    new Obstacle(sprites, 6, 196, 120, 24, -160, 90, 120, 24, 'right', 'medium')
 ];
 
 function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed) {
@@ -246,19 +248,28 @@ function gameLogic() {
 }
 
 function collision() {
-    return false;
-//     // For loop to check every obstacleX
-        // for (var i = 0, i < obstacleArray.length; )
-//
-//         if (posY == obstacleY && ((posX == obstacleX + obstacleWidth) || (posX == obstacleX - obstacleWidth))) {
-//             // Frog sprite turns to death sprites
-//             ctx.drawImage(Skull-sprite, 0, 440, 23, 17, posX, posY, 30, 22)
-//             // After 3 seconds run reset function
-//             window.setTimeout(reset(), milliseconds);
-//
-//             // Decrement lives
-//             lives--;
-//         }
+    // Flag
+
+     // For loop to check every obstacleX
+        for (var i = 0; i < obstacleArray.length; i++) {
+            var obs = obstacleArray[i];
+            if (posY == obs.dy && ((posX == obs.dx + obs.dw) || (posX == obs.dx - obs.dw))) {
+
+                console.log(obs.dy);
+                console.log(posY);
+               // Frog sprite turns to death sprites
+               ctx.drawImage(deathSprite, 0, 440, 23, 17, posX, posY, 30, 22)
+
+
+               // Decrement lives
+               lives--;
+
+               return true;
+            }
+
+
+        }
+        return false;
 }
 
 function reset() {
@@ -276,7 +287,5 @@ function didFinish() {
         ctx.drawImage(sprites, 10, 365, 30, 22, posX, 50, 30, 22);
     }
 }
-
-
 
 animate();
