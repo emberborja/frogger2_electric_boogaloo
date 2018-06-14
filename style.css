@@ -9,9 +9,12 @@ body {
     font-family: 'VT323', monospace;
 }
 
-canvas {
+#game {
     border: 1px solid black;
-    margin: auto;
+}
+
+#game-div {
+    text-align: center;
 }
 
 img {
