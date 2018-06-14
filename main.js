@@ -169,21 +169,48 @@ function isMoveValid(x,y) {
     }
 }
 
+var breakpoint = [-27, 470, -30, 470, -50, -33, 527, 621, -33, 560];
+var startpoint1 = [440, -30, 440, -30, 440, 440, -87, -181, 440, -120];
+var startpoint2 = [521, -176, 521, -176, 521, 521, -233, -327, 521, -266];
+var startpoint3 = [629, -322, 629, -322, 629, 629, -379, -473, 629, -412];
 
 var obstacleArray = [
-    new Obstacle(sprites, 80, 262, 27, 28, 450, 490, 27, 28, 'left', 'slow'),
-    new Obstacle(sprites, 70, 300, 30, 23, -50, 450, 30, 23, 'right', 'slow'),
-    new Obstacle(sprites, 10, 265, 30, 23, 450, 410, 30, 23, 'left', 'medium'),
-    new Obstacle(sprites, 45, 263, 30, 27, -50, 370, 30, 27, 'right', 'medium'),
-    new Obstacle(sprites, 105, 300, 50, 21, 480, 330, 50, 21, 'left', 'fast'),
-    new Obstacle(sprites, 14, 405, 33, 25, 450, 250, 33, 25, 'left', 'slow'),
-    new Obstacle(sprites, 6, 228, 87, 24, -100, 210, 87, 24, 'right', 'slow'),
-    new Obstacle(sprites, 6, 164, 181, 24, -300, 170, 181, 24, 'right', 'fast'),
-    new Obstacle(sprites, 14, 405, 33, 25, 450, 130, 33, 25, 'left', 'fast'),
-    new Obstacle(sprites, 6, 196, 120, 24, -160, 90, 120, 24, 'right', 'medium')
+    // starting obstacles
+    new Obstacle(sprites, 80, 262, 27, 28, startpoint1[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+    new Obstacle(sprites, 70, 300, 30, 23, startpoint1[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+    new Obstacle(sprites, 10, 265, 30, 23, startpoint1[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+    new Obstacle(sprites, 45, 263, 30, 27, startpoint1[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+    new Obstacle(sprites, 105, 300, 50, 21, startpoint1[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+    new Obstacle(sprites, 6, 228, 87, 24, startpoint1[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    new Obstacle(sprites, 6, 164, 181, 24, startpoint1[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint1[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
+    // first extra obstacles
+    new Obstacle(sprites, 80, 262, 27, 28, startpoint2[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+    new Obstacle(sprites, 70, 300, 30, 23, startpoint2[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+    new Obstacle(sprites, 10, 265, 30, 23, startpoint2[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+    new Obstacle(sprites, 45, 263, 30, 27, startpoint2[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+    new Obstacle(sprites, 105, 300, 50, 21, startpoint2[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+    new Obstacle(sprites, 6, 228, 87, 24, startpoint2[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    new Obstacle(sprites, 6, 164, 181, 24, startpoint2[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint2[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
+    // second extra obstacles
+    new Obstacle(sprites, 80, 262, 27, 28, startpoint3[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+    new Obstacle(sprites, 70, 300, 30, 23, startpoint3[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+    new Obstacle(sprites, 10, 265, 30, 23, startpoint3[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+    new Obstacle(sprites, 45, 263, 30, 27, startpoint3[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+    new Obstacle(sprites, 105, 300, 50, 21, startpoint3[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint3[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+    new Obstacle(sprites, 6, 228, 87, 24, startpoint3[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    new Obstacle(sprites, 6, 164, 181, 24, startpoint3[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint3[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint3[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
 ];
 
-function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed) {
+function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed, reset) {
     this.s = source;
     this.sx = sourcex;
     this.sy = sourcey;
@@ -195,48 +222,49 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
     this.dh = destheight;
     this.direction= direction;
     this.speed= speed;
+    this.resetAtXvalue= reset;
     // draws the obstacle
     this.draw= function(){
         ctx.drawImage(this.s, this.sx, this.sy, this.sw, this.sh, this.dx, this.dy, this.dw, this.dh);
     }
     // updates the obstacle to show movement
     this.update= function(){
-        if(this.direction == 'right'){
+        if(this.direction == 'from left to right'){
             if(this.speed == 'slow'){
                 this.dx += .5;
-                if(this.dx > (450 + this.sw)){
+                if(this.dx > this.resetAtXvalue){
                     this.dx = destx;
                 }
             }
             if(this.speed == 'medium'){
                 this.dx += 1;
-                if(this.dx > (450 + this.sw)){
+                if(this.dx > this.resetAtXvalue){
                     this.dx = destx;
                 }
             }
             if(this.speed == 'fast'){
                 this.dx += 1.5;
-                if(this.dx > (450 + this.sw)){
+                if(this.dx > this.resetAtXvalue){
                     this.dx = destx;
                 }
             }
         }
-        if(this.direction == 'left'){
+        if(this.direction == 'from right to left'){
             if(this.speed == 'slow'){
                 this.dx -= .5;
-                if(this.dx < (-50 - this.sw)){
-                    this.dx = destx;
+                if(this.dx < this.resetAtXvalue){
+                    this.dx = 440;
                 }
             }
             if(this.speed == 'medium'){
                 this.dx -= 1;
-                if(this.dx < (-50 - this.sw)){
+                if(this.dx < this.resetAtXvalue){
                     this.dx = destx;
                 }
             }
             if(this.speed == 'fast'){
                 this.dx -= 1.5;
-                if(this.dx < (-50 - this.sw)){
+                if(this.dx < this.resetAtXvalue){
                     this.dx = destx;
                 }
             }
