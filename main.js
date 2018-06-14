@@ -22,7 +22,7 @@ var posX = 200;
 var posY = 530;
 
 // obstacle variables
-    
+
 
 
 // TODO
@@ -164,7 +164,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
     this.dw = destwidth;
     this.dh = destheight;
     this.direction= direction;
-    this.speed= speed; 
+    this.speed= speed;
     // draws the obstacle
     this.draw= function(){
         ctx.drawImage(this.s, this.sx, this.sy, this.sw, this.sh, this.dx, this.dy, this.dw, this.dh);
@@ -172,7 +172,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
     // updates the obstacle to show movement
     this.update= function(){
         if(this.direction == 'right'){
-            if(this.speed == 'slow'){ 
+            if(this.speed == 'slow'){
                 this.dx += .5;
                 if(this.dx > (450 + this.sw)){
                     this.dx = destx;
@@ -192,7 +192,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             }
         }
         if(this.direction == 'left'){
-            if(this.speed == 'slow'){ 
+            if(this.speed == 'slow'){
                 this.dx -= .5;
                 if(this.dx < (-50 - this.sw)){
                     this.dx = destx;
@@ -248,6 +248,7 @@ function gameLogic() {
 function collision() {
     return false;
 //     // For loop to check every obstacleX
+        // for (var i = 0, i < obstacleArray.length; )
 //
 //         if (posY == obstacleY && ((posX == obstacleX + obstacleWidth) || (posX == obstacleX - obstacleWidth))) {
 //             // Frog sprite turns to death sprites
@@ -270,7 +271,7 @@ function reset() {
     currentScore = 0;
 }
 
-function didFinish {
+function didFinish() {
     if (posY == (50)) {
         ctx.drawImage(sprites, 10, 365, 30, 22, posX, 50, 30, 22);
     }
