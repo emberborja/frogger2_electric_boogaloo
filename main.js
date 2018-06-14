@@ -325,7 +325,7 @@ function collision() {
 
                facing = 'dead';
             }
-            else if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) && (posX < obs.dx - obs.dw))){
+            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw))) {
                 facing = 'dead';
             }
         }
