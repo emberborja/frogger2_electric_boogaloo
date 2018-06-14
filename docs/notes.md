@@ -1,3 +1,5 @@
+# Plan C Notes
+
 Wednesday
     AM:
         planning
@@ -20,3 +22,15 @@ Friday
         coding
     PM:
         review feedback
+
+
+
+
+
+
+
+# June 14, 2018
+
+1. Get obstacles moving on screen
+2. Death/collision functions
+3. Reset function
