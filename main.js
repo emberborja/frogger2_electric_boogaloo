@@ -138,39 +138,48 @@ var startpoint2 = [521, -176, 521, -176, 521, 521, -233, -327, 521, -266];
 var startpoint3 = [629, -322, 629, -322, 629, 629, -379, -473, 629, -412]; 
 
 var obstacleArray = [
-    // starting obstacles
+    // road obstacles
+    // car row 1
     new Obstacle(sprites, 80, 262, 27, 28, startpoint1[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
-    new Obstacle(sprites, 70, 300, 30, 23, startpoint1[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
-    new Obstacle(sprites, 10, 265, 30, 23, startpoint1[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
-    new Obstacle(sprites, 45, 263, 30, 27, startpoint1[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
-    new Obstacle(sprites, 105, 300, 50, 21, startpoint1[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
-    new Obstacle(sprites, 6, 228, 87, 24, startpoint1[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
-    new Obstacle(sprites, 6, 164, 181, 24, startpoint1[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint1[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
-    // first extra obstacles
     new Obstacle(sprites, 80, 262, 27, 28, startpoint2[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
-    new Obstacle(sprites, 70, 300, 30, 23, startpoint2[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
-    new Obstacle(sprites, 10, 265, 30, 23, startpoint2[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
-    new Obstacle(sprites, 45, 263, 30, 27, startpoint2[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
-    new Obstacle(sprites, 105, 300, 50, 21, startpoint2[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
-    new Obstacle(sprites, 6, 228, 87, 24, startpoint2[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
-    new Obstacle(sprites, 6, 164, 181, 24, startpoint2[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint2[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
-    // second extra obstacles
     new Obstacle(sprites, 80, 262, 27, 28, startpoint3[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+    // car row 2
+    new Obstacle(sprites, 70, 300, 30, 23, startpoint1[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+    new Obstacle(sprites, 70, 300, 30, 23, startpoint2[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
     new Obstacle(sprites, 70, 300, 30, 23, startpoint3[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+    // car row 3
+    new Obstacle(sprites, 10, 265, 30, 23, startpoint1[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+    new Obstacle(sprites, 10, 265, 30, 23, startpoint2[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
     new Obstacle(sprites, 10, 265, 30, 23, startpoint3[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+    // car row 4
+    new Obstacle(sprites, 45, 263, 30, 27, startpoint1[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+    new Obstacle(sprites, 45, 263, 30, 27, startpoint2[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
     new Obstacle(sprites, 45, 263, 30, 27, startpoint3[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+    // car row 5
+    new Obstacle(sprites, 105, 300, 50, 21, startpoint1[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+    new Obstacle(sprites, 105, 300, 50, 21, startpoint2[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
     new Obstacle(sprites, 105, 300, 50, 21, startpoint3[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+    // water obstacles
+    // water row 1
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
     new Obstacle(sprites, 14, 405, 33, 25, startpoint3[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+    // water row 2
+    new Obstacle(sprites, 6, 228, 87, 24, startpoint1[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    new Obstacle(sprites, 6, 228, 87, 24, startpoint2[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
     new Obstacle(sprites, 6, 228, 87, 24, startpoint3[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    // water row 3
+    new Obstacle(sprites, 6, 164, 181, 24, startpoint1[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    new Obstacle(sprites, 6, 164, 181, 24, startpoint2[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
     new Obstacle(sprites, 6, 164, 181, 24, startpoint3[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    // water row 4
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
     new Obstacle(sprites, 14, 405, 33, 25, startpoint3[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint3[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
+    // water row 5
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint1[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint2[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
+    new Obstacle(sprites, 6, 196, 120, 24, startpoint3[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9])
 ];
 
 function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed, reset) {
