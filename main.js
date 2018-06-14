@@ -36,23 +36,24 @@ var facing = '';
             // Allows frog movement from user input
             // Refreshes score
             // Run collision function
-setInterval(animate,10);
+// setInterval(animate,10);
 function animate() {
-    // infinite loop
-    // requestAnimationFrame(animate);
-
-
-    // clears the canvas everytime infinite loop runs
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // calls these functions everytime the infinite loop runs
+    // // infinite loop
+    requestAnimationFrame(animate);
+    //
+    //
+    // // clears the canvas everytime infinite loop runs
+    // ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // // calls these functions everytime the infinite loop runs
     drawBackground();
-
-    // draws the obstacles
+    drawFrog();
+    //
+    // // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
         obstacleArray[i].update();
     }
-    // checks game logic
-    gameLogic();
+    // // checks game logic
+    // gameLogic();
     collision();
 }
 
@@ -81,18 +82,34 @@ function drawBackground() {
     ctx.fillText('SCORE', 10, 18);
     ctx.fillText('HIGH SCORE', 300, 18);
 
-    // If alive draws the frog with it's new position values
-    if ( isAlive ) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
-    }
-    // If collion occurs draw deathSprite in that position
-    else {
-        ctx.drawImage(deathSprite, posX, posY, 30, 22)
-        // After 3 seconds run reset function
-        window.setTimeout(reset(), 3000);
-    }
+
 
 }
+
+function drawFrog() {
+    // If alive draws the frog with it's new position values
+    if ( facing == 'left' ) {
+        ctx.drawImage(sprites, 80, 335, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'up' ) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'right' ) {
+        ctx.drawImage(sprites, 12, 335, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'down' ) {
+        ctx.drawImage(sprites, 74, 365, 30, 22, posX, posY, 30, 22);
+    }
+
+    // If collion occurs draw deathSprite in that position
+    else if ( facing == 'dead' ) {
+        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+    }
+}
+
 
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
@@ -106,22 +123,26 @@ function move(keypress) {
 
     if (keypress == 37 && isMoveValid(posX-32, posY)) {
         posX -= 32;
-        return ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
+        facing = 'left';
+        ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
     }
-    if (keypress == 38 && isMoveValid(posX, posY-40)) {
+    else if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
+        facing = 'up';
         currentScore += 10;
-        return ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
 
     }
-    if (keypress == 39 && isMoveValid(posX+32, posY)) {
+    else if (keypress == 39 && isMoveValid(posX+32, posY)) {
         posX += 32;
-        return ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
+        facing = 'right';
+        ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
     }
-    if (keypress == 40 && isMoveValid(posX, posY+40)) {
+    else if (keypress == 40 && isMoveValid(posX, posY+40)) {
         posY += 40;
+        facing = 'down';
         currentScore -= 10;
-        return ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
 
 }
@@ -260,21 +281,17 @@ function collision() {
      // For loop to check every obstacleX
         for (var i = 0; i < obstacleArray.length; i++) {
             var obs = obstacleArray[i];
-            if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx - obs.dw))) {
-
-               // Frog sprite turns to death sprites
-               ctx.drawImage(deathSprite, 0, 440, 23, 17, posX, posY, 30, 22)
-
+            if (i < 15 && posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx - obs.dw))) {
 
                // Decrement lives
                lives--;
 
-               isAlive = false;
+               facing = 'dead';
             }
-
-
+            else if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) && (posX < obs.dx - obs.dw))){
+                facing = 'dead';
+            }
         }
-        isAlive = true;
 }
 
 function reset() {
@@ -293,3 +310,4 @@ function reset() {
 //         ctx.drawImage(sprites, 10, 365, 30, 22, posX, 50, 30, 22);
 //     }
 // }
+animate();
