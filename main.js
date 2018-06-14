@@ -16,9 +16,7 @@ var posX = 220;
 var posY = 540;
 
 // obstacle variables
-    // first row: car
-    var firstRowCarPositionX = 450;
-    var firstRowCarVelocity = 1;
+    
 
 
 // TODO
@@ -43,7 +41,9 @@ function animate() {
     // draws the frog with it's new position values
     ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);  
     // draws the obstacles
-    obstacles();
+    for(var i =0; i < obstacleArray.length; i++){
+        obstacleArray[i].update();
+    }
     // checks game logic
     gameLogic();
 }
@@ -105,16 +105,92 @@ function move(keypress) {
     }
 }
 
-// OBSTACLE ANIMATIONS
-function obstacles() {
-    // draws the car obstacle for the first row
-    ctx.drawImage(sprites, 80, 262, 27, 28, this.firstRowCarPositionX, 480, 27, 28);
-    this.firstRowCarPositionX -= this.firstRowCarVelocity;
-    if(this.firstRowCarPositionX < -35){
-        this.firstRowCarPositionX = 450;
+// OBSTACLES
+// first row: purple yello car, right to left, slow [0]
+// second row: bulldozer car, left to right, slow [1]
+// third row: purple car, right to left, medium speed [2]
+// fourth row: green and white car, left to right, medium speed [3]
+// fifth row: freight truck car, right to left, fast [4]
+// sixth row: turts x 3, slow [5]
+// seventh row: small log, slow [6]
+// eith row: large log, fast [7]
+// ninth row: turts x 2, fast [8]
+// tenth row: medium logs, medium speed [9]
+
+var obstacleArray = [
+    new Obstacle(sprites, 80, 262, 27, 28, 450, 480, 27, 28, 'left', 'slow'),
+    new Obstacle(sprites, 70, 300, 30, 23, -50, 440, 30, 23, 'right', 'slow'),
+    new Obstacle(sprites, 10, 265, 30, 23, 450, 400, 30, 23, 'left', 'medium'),
+    new Obstacle(sprites, 45, 263, 30, 27, -50, 360, 30, 27, 'right', 'medium'),
+    new Obstacle(sprites, 105, 300, 50, 21, 480, 320, 50, 21, 'left', 'fast'),
+    new Obstacle(sprites, 14, 405, 33, 25, 450, 240, 33, 25, 'left', 'slow'),
+    new Obstacle(sprites, 6, 228, 87, 24, -100, 200, 87, 24, 'right', 'slow'),
+    new Obstacle(sprites, 6, 164, 181, 24, -300, 160, 181, 24, 'right', 'fast'),
+    new Obstacle(sprites, 14, 405, 33, 25, 450, 120, 33, 25, 'left', 'fast'),
+    new Obstacle(sprites, 6, 196, 120, 24, -160, 80, 120, 24, 'right', 'medium')
+];
+
+function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed) {
+    this.s = source;
+    this.sx = sourcex;
+    this.sy = sourcey;
+    this.sw = sourcewidth;
+    this.sh = sourceheight;
+    this.dx = destx;
+    this.dy = desty;
+    this.dw = destwidth;
+    this.dh = destheight;
+    this.direction= direction;
+    this.speed= speed; 
+    // draws the obstacle
+    this.draw= function(){
+        ctx.drawImage(this.s, this.sx, this.sy, this.sw, this.sh, this.dx, this.dy, this.dw, this.dh);
+    }
+    // updates the obstacle to show movement
+    this.update= function(){
+        if(this.direction == 'right'){
+            if(this.speed == 'slow'){ 
+                this.dx += .5;
+                if(this.dx > (450 + this.sw)){
+                    this.dx = destx;
+                }
+            }
+            if(this.speed == 'medium'){
+                this.dx += 1;
+                if(this.dx > (450 + this.sw)){
+                    this.dx = destx;
+                }
+            }
+            if(this.speed == 'fast'){
+                this.dx += 1.5;
+                if(this.dx > (450 + this.sw)){
+                    this.dx = destx;
+                }
+            }
+        }
+        if(this.direction == 'left'){
+            if(this.speed == 'slow'){ 
+                this.dx -= .5;
+                if(this.dx < (-50 - this.sw)){
+                    this.dx = destx;
+                }
+            }
+            if(this.speed == 'medium'){
+                this.dx -= 1;
+                if(this.dx < (-50 - this.sw)){
+                    this.dx = destx;
+                }
+            }
+            if(this.speed == 'fast'){
+                this.dx -= 1.5;
+                if(this.dx < (-50 - this.sw)){
+                    this.dx = destx;
+                }
+            }
+        }
+        this.draw();
     }
 }
-
 
 // GAME LOGIC   
 function gameLogic() {
