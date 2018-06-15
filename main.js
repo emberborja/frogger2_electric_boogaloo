@@ -122,8 +122,10 @@ function drawFrog() {
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
     function(event) {
+        if (lives > 0) {
         var keypress = event.keyCode;
         move(keypress);
+        }
     })
 
 // Frog movement
