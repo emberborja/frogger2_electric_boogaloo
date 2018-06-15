@@ -5,6 +5,8 @@ var ctx = game.getContext('2d');
 // Include sprites
 var sprites = new Image();
 sprites.src = 'assets/frogger-sprites.png';
+var deathSprite = new Image();
+deathSprite.src = 'assets/skull-sprite.png'
 
 // Set score variables
 var score = 0;
@@ -18,9 +20,10 @@ var currentScore = 0;
 // Frog position
 var posX = 200;
 var posY = 530;
+var facing = '';
 
 // obstacle variables
-    
+
 
 
 // TODO
@@ -33,29 +36,24 @@ var posY = 530;
             // Allows frog movement from user input
             // Refreshes score
             // Run collision function
-
-// TODO: What is this doing?
-
-
-
+// setInterval(animate,10);
 function animate() {
-    // infinite loop
+    // // infinite loop
     requestAnimationFrame(animate);
-    // clears the canvas everytime infinite loop runs
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // calls these functions everytime the infinite loop runs
+    // // clears the canvas everytime infinite loop runs
+    // ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // // calls these functions everytime the infinite loop runs
     drawBackground();
-    
-    // draws the obstacles
+    // // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
         obstacleArray[i].update();
     }
-    // draws the frog with it's new position values
-    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
-    
-    // checks game logic
-    gameLogic();
-    
+    // // checks game logic
+    // gameLogic();
+    drawFrog();
+    car_collision();
+    water_collision();
+    logRide();
 }
 
 // Render background
@@ -84,7 +82,30 @@ function drawBackground() {
     ctx.fillText('HIGH SCORE', 300, 18);
 }
 
-// FROG ANIMATIONS
+function drawFrog() {
+    // If alive draws the frog with it's new position values
+    if ( facing == 'left' ) {
+        ctx.drawImage(sprites, 80, 335, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'up' ) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'right' ) {
+        ctx.drawImage(sprites, 12, 335, 30, 22, posX, posY, 30, 22);
+    }
+
+    else if ( facing == 'down' ) {
+        ctx.drawImage(sprites, 74, 365, 30, 22, posX, posY, 30, 22);
+    }
+
+    // If collion occurs draw deathSprite in that position
+    else if ( facing == 'dead' ) {
+        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+    }
+}
+
 
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
@@ -98,22 +119,28 @@ function move(keypress) {
 
     if (keypress == 37 && isMoveValid(posX-32, posY)) {
         posX -= 32;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        facing = 'left';
+        ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
     }
-    if (keypress == 38 && isMoveValid(posX, posY-40)) {
+    else if (keypress == 38 && isMoveValid(posX, posY-40)) {
         posY -= 40;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        facing = 'up';
         currentScore += 10;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+
     }
-    if (keypress == 39 && isMoveValid(posX+32, posY)) {
+    else if (keypress == 39 && isMoveValid(posX+32, posY)) {
         posX += 32;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        facing = 'right';
+        ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
     }
-    if (keypress == 40 && isMoveValid(posX, posY+40)) {
+    else if (keypress == 40 && isMoveValid(posX, posY+40)) {
         posY += 40;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        facing = 'down';
         currentScore -= 10;
+        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
+
 }
 
 // OBSTACLES
@@ -141,7 +168,7 @@ function isMoveValid(x,y) {
 var breakpoint = [-27, 470, -30, 470, -50, -33, 527, 621, -33, 560];
 var startpoint1 = [440, -30, 440, -30, 440, 440, -87, -181, 440, -120];
 var startpoint2 = [521, -176, 521, -176, 521, 521, -233, -327, 521, -266];
-var startpoint3 = [629, -322, 629, -322, 629, 629, -379, -473, 629, -412]; 
+var startpoint3 = [629, -322, 629, -322, 629, 629, -379, -473, 629, -412];
 
 var obstacleArray = [
     // road obstacles
@@ -200,7 +227,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
     this.dh = destheight;
     this.direction= direction;
     this.speed= speed;
-    this.resetAtXvalue= reset; 
+    this.resetAtXvalue= reset;
     // draws the obstacle
     this.draw= function(){
         ctx.drawImage(this.s, this.sx, this.sy, this.sw, this.sh, this.dx, this.dy, this.dw, this.dh);
@@ -208,7 +235,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
     // updates the obstacle to show movement
     this.update= function(){
         if(this.direction == 'from left to right'){
-            if(this.speed == 'slow'){ 
+            if(this.speed == 'slow'){
                 this.dx += .5;
                 if(this.dx > this.resetAtXvalue){
                     this.dx = 0;
@@ -228,7 +255,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             }
         }
         if(this.direction == 'from right to left'){
-            if(this.speed == 'slow'){ 
+            if(this.speed == 'slow'){
                 this.dx -= .5;
                 if(this.dx < this.resetAtXvalue){
                     this.dx = 440;
@@ -281,11 +308,85 @@ function gameLogic() {
     }
 }
 
+function car_collision() {
+    // Flag
 
-// function isDead() {
-//
+     // For loop to check every obstacleX
+    for (var i = 0; i < 15; i++) {
+        var obs = obstacleArray[i];
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+
+           // Decrement lives
+           lives--;
+
+           facing = 'dead';
+        }
+    }
+}
+
+function water_collision() {
+    for (var i = 15; i < 30; i = i+3) {
+        var obs = obstacleArray[i];
+        var count = 0;
+        for (var j = 0; j < 3; j++) {
+            obs = obstacleArray[i+j];
+            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw/2) || (posX < obs.dx - obs.dw/2))) {
+                count++;
+            }
+            if (count == 3) {
+            facing = 'dead';
+            }
+        }
+    }
+}
+
+function logRide() {
+
+    // For loop to check every obstacleX
+    for (var i = 15; i < 30; i++) {
+        var obs = obstacleArray[i];
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+            if(obs.direction == 'from left to right'){
+                if(obs.speed == 'slow'){
+                    posX += .5;
+                }
+                if(obs.speed == 'medium'){
+                    posX += 1;
+                }
+                if(obs.speed == 'fast'){
+                    posX += 1.5;
+                }
+            }
+            if(obs.direction == 'from right to left'){
+                if(obs.speed == 'slow'){
+                    posX -= .5;
+                }
+                if(obs.speed == 'medium'){
+                    posX -= 1;
+                }
+                if(obs.speed == 'fast'){
+                    posX -= 1.5;
+                }
+            }
+        }
+    }
+}
+
+
+function reset() {
+    // Move frog to start
+    posX = 200;
+    posy = 530;
+
+    // Reset score
+    // score = 0;
+    // currentScore = 0;
+    isAlive = true;
+}
+
+// function didFinish() {
+//     if (posY == (50)) {
+//         ctx.drawImage(sprites, 10, 365, 30, 22, posX, 50, 30, 22);
+//     }
 // }
-
-
-
 animate();

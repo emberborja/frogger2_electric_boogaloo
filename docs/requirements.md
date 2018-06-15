@@ -21,4 +21,5 @@
 4. Hitting an obstacle should result in a death sprite onscreen, reset of frog to bottom of grid, and decrement of life counter
 5. If all lives are lost a losing message should display
 6. If all frogs make it to the top of the grid a winning message should display
+    * If frog makes it to top of grid, frog stays, and new frog is reset at bottom. Score does not reset.
 7. High score should be saved in local storage and displayed during every game
