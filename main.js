@@ -354,7 +354,7 @@ function logRide() {
                     posX += 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX += 1.5;
+                    posX += 1.25;
                 }
             }
             if(obs.direction == 'from right to left'){
@@ -365,7 +365,7 @@ function logRide() {
                     posX -= 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX -= 1.5;
+                    posX -= 1.25;
                 }
             }
         }
