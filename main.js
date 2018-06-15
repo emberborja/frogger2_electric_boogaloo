@@ -46,7 +46,6 @@ function animate() {
     // ctx.clearRect(0, 0, innerWidth, innerHeight);
     // // calls these functions everytime the infinite loop runs
     drawBackground();
-    drawFrog();
     //
     // // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
@@ -54,8 +53,10 @@ function animate() {
     }
     // // checks game logic
     // gameLogic();
+    drawFrog();
     car_collision();
     water_collision();
+    logRide();
 }
 
 // Render background
@@ -319,7 +320,7 @@ function car_collision() {
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
         var obs = obstacleArray[i];
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx - obs.dw))) {
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
 
            // Decrement lives
            lives--;
@@ -335,11 +336,43 @@ function water_collision() {
         var count = 0;
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
-            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw))) {
+            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw/2) || (posX < obs.dx - obs.dw/2))) {
                 count++;
             }
             if (count == 3) {
             facing = 'dead';
+            }
+        }
+    }
+}
+
+function logRide() {
+
+    // For loop to check every obstacleX
+    for (var i = 15; i < 30; i++) {
+        var obs = obstacleArray[i];
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+            if(obs.direction == 'from left to right'){
+                if(obs.speed == 'slow'){
+                    posX += .5;
+                }
+                if(obs.speed == 'medium'){
+                    posX += 1;
+                }
+                if(obs.speed == 'fast'){
+                    posX += 1.5;
+                }
+            }
+            if(obs.direction == 'from right to left'){
+                if(obs.speed == 'slow'){
+                    posX -= .5;
+                }
+                if(obs.speed == 'medium'){
+                    posX -= 1;
+                }
+                if(obs.speed == 'fast'){
+                    posX -= 1.5;
+                }
             }
         }
     }
