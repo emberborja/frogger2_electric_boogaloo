@@ -7,6 +7,8 @@ var sprites = new Image();
 sprites.src = 'assets/frogger-sprites.png';
 var deathSprite = new Image();
 deathSprite.src = 'assets/skull-sprite.png'
+var gameOverSprite = new Image();
+gameOverSprite.src = 'assets/gameOverSprite.png';
 
 // Set score variables
 var score = 0;
@@ -64,6 +66,7 @@ function animate() {
     water_collision();
     logRide();
     gameLogic();
+    winner();
 }
 
 // Render background
@@ -120,15 +123,17 @@ function drawFrog() {
 // Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
     function(event) {
+        if (lives > 0) {
         var keypress = event.keyCode;
         move(keypress);
+        }
     })
 
 // Frog movement
 function move(keypress) {
 
     if (keypress == 37 && isMoveValid(posX-32, posY)) {
-        posX -= 32;
+        posX -= 40;
         facing = 'left';
         ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
     }
@@ -140,7 +145,7 @@ function move(keypress) {
 
     }
     else if (keypress == 39 && isMoveValid(posX+32, posY)) {
-        posX += 32;
+        posX += 40;
         facing = 'right';
         ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
     }
@@ -362,6 +367,7 @@ function water_collision() {
             // is dead
             if (count == 3) {
             facing = 'dead';
+            lives--;
             ctx.drawImage(deathSprite, posX, posY, 30, 22);
             }
         }
@@ -409,6 +415,23 @@ function reset() {
 
     posX = 200;
     posY = 530;
-    score = 0;
-    currentScore = 0;
+    if (!winner()) {
+        score = 0;
+        currentScore = 0;
+    }
+    if (lives == 0) {
+        // Display losing message
+        ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+    }
+}
+
+function winner() {
+    if (posY == 50) {
+        currentScore = score + 300;
+
+        console.log("Congratu-fucking-lations!");
+        reset();
+
+    }
+    return true;
 }
