@@ -20,7 +20,7 @@ var currentScore = 0;
 // Frog position
 var posX = 200;
 var posY = 530;
-var facing = '';
+var facing = 'up';
 
 // Time variable
 var sec = 10;
@@ -355,7 +355,7 @@ function water_collision() {
         // all three to see if frog is in the water
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
-            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw/2) || (posX < obs.dx - obs.dw/2))) {
+            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx))) {
                 count++;
             }
             // If frog is not on any of the three objects in a row then frog
