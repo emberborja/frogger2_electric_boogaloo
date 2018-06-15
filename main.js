@@ -155,27 +155,27 @@ function move(keypress) {
         currentScore -= 10;
         ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
     }
-
 }
-
-// OBSTACLES
-// first row: purple yello car, right to left, slow [0]
-// second row: bulldozer car, left to right, slow [1]
-// third row: purple car, right to left, medium speed [2]
-// fourth row: green and white car, left to right, medium speed [3]
-// fifth row: freight truck car, right to left, fast [4]
-// sixth row: turts x 3, slow [5]
-// seventh row: small log, slow [6]
-// eith row: large log, fast [7]
-// ninth row: turts x 2, fast [8]
-// tenth row: medium logs, medium speed [9]
 
 // Check if proposed move is valid (on screen)
 function isMoveValid(x,y) {
-    if (x > 2 && x < 420 && y > 45 && y < 560 ) {
+    if (x > 2 && x < 420 && y > 89 && y < 560 ) {
+        return true;
+    } else if(y > 30 && y < 90 && (x < 50)){
+        console.log('score1');
+        return true;
+    } else if(y > 30 && y < 90 && (100 < x < 150)){
+        console.log('score2');
+        return true;
+    } else if(y > 30 && y < 90 && (250 < x < 280)){
+        console.log('score3');
+        return true;
+    } else if(y > 30 && y < 90 && (335 < x < 385)){
+        console.log('score4');
         return true;
     }
     else{
+        console.log('false');
         return false;
     }
 }
@@ -187,6 +187,17 @@ var breakpoint = [-27, 470, -30, 470, -50, -33, -33];
 var startpoint1 = [440, -30, 440, -30, 440, 440, 440];
 var startpoint2 = [613, -206, 616, -206, 636, 473, 473];
 var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
+// OBSTACLES
+// first row: purple yello car, right to left, slow [0]
+// second row: bulldozer car, left to right, slow [1]
+// third row: purple car, right to left, medium speed [2]
+// fourth row: green and white car, left to right, medium speed [3]
+// fifth row: freight truck car, right to left, fast [4]
+// sixth row: turts x 3, slow [5]
+// seventh row: small log, slow [6]
+// eith row: large log, fast [7]
+// ninth row: turts x 2, fast [8]
+// tenth row: medium logs, medium speed [9]
 
 var obstacleArray = [
     // road obstacles
@@ -353,7 +364,7 @@ function car_collision() {
 
 function water_collision() {
     for (var i = 15; i < 30; i = i+3) {
-        var obs = obstacleArray[i];
+        var obs = obstacleArray[i];- obs.dw/2
         var count = 0;
 
         // With three objects on every row we have to check for collisions with
@@ -381,7 +392,7 @@ function logRide() {
         var obs = obstacleArray[i];
 
         // If frog is on an object in the water
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx))) {
 
             // Increment frog position according to object speed
             if(obs.direction == 'from left to right'){
