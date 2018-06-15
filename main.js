@@ -35,6 +35,9 @@ var posY = 530;
             // Run collision function
 
 // TODO: What is this doing?
+
+
+
 function animate() {
     // infinite loop
     requestAnimationFrame(animate);
@@ -42,14 +45,17 @@ function animate() {
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     // calls these functions everytime the infinite loop runs
     drawBackground();
-    // draws the frog with it's new position values
-    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+    
     // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
         obstacleArray[i].update();
     }
+    // draws the frog with it's new position values
+    ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+    
     // checks game logic
     gameLogic();
+    
 }
 
 // Render background
@@ -205,19 +211,19 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             if(this.speed == 'slow'){ 
                 this.dx += .5;
                 if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 0;
                 }
             }
             if(this.speed == 'medium'){
                 this.dx += 1;
                 if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 0;
                 }
             }
             if(this.speed == 'fast'){
-                this.dx += 1.5;
+                this.dx += 1.25;
                 if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 0;
                 }
             }
         }
@@ -231,13 +237,13 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             if(this.speed == 'medium'){
                 this.dx -= 1;
                 if(this.dx < this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 440;
                 }
             }
             if(this.speed == 'fast'){
-                this.dx -= 1.5;
+                this.dx -= 1.25;
                 if(this.dx < this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 440;
                 }
             }
         }
