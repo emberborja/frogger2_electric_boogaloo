@@ -113,7 +113,6 @@ function drawFrog() {
     // If collion occurs draw deathSprite in that position
     else if ( facing == 'dead' ) {
         ctx.drawImage(deathSprite, posX, posY, 30, 22);
-        animate.stop
     }
 }
 
@@ -342,6 +341,7 @@ function car_collision() {
            lives--;
 
            facing = 'dead';
+           ctx.drawImage(deathSprite, posX, posY, 30, 22);
         }
     }
 }
@@ -362,6 +362,7 @@ function water_collision() {
             // is dead
             if (count == 3) {
             facing = 'dead';
+            ctx.drawImage(deathSprite, posX, posY, 30, 22);
             }
         }
     }
@@ -408,4 +409,6 @@ function reset() {
 
     posX = 200;
     posY = 530;
+    score = 0;
+    currentScore = 0;
 }
