@@ -54,7 +54,8 @@ function animate() {
     }
     // // checks game logic
     // gameLogic();
-    collision();
+    car_collision();
+    water_collision();
 }
 
 // Render background
@@ -312,24 +313,38 @@ function gameLogic() {
     }
 }
 
-function collision() {
+function car_collision() {
     // Flag
 
      // For loop to check every obstacleX
-        for (var i = 0; i < obstacleArray.length; i++) {
-            var obs = obstacleArray[i];
-            if (i < 15 && posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx - obs.dw))) {
+    for (var i = 0; i < 15; i++) {
+        var obs = obstacleArray[i];
+        if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx - obs.dw))) {
 
-               // Decrement lives
-               lives--;
+           // Decrement lives
+           lives--;
 
-               facing = 'dead';
-            }
+           facing = 'dead';
+        }
+    }
+}
+
+function water_collision() {
+    for (var i = 15; i < 30; i = i+3) {
+        var obs = obstacleArray[i];
+        var count = 0;
+        for (var j = 0; j < 3; j++) {
+            obs = obstacleArray[i+j];
             if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw))) {
-                facing = 'dead';
+                count++;
+            }
+            if (count == 3) {
+            facing = 'dead';
             }
         }
+    }
 }
+
 
 function reset() {
     // Move frog to start
