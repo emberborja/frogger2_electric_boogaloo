@@ -25,10 +25,6 @@ var facing = '';
 // Time variable
 var sec = 10;
 
-// obstacle variables
-
-
-
 // TODO
     // onREadyState function
         // Load background and frog in starting position
@@ -51,21 +47,18 @@ function gameTime() {
 }
 
 function animate() {
-    // // infinite loop
+    // infinite loop
     // requestAnimationFrame(animate);
-    //
-    //
-    // // clears the canvas everytime infinite loop runs
-    // ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // // calls these functions everytime the infinite loop runs
+    // clears the canvas everytime infinite loop runs
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // calls these functions everytime the infinite loop runs
     drawBackground();
-    //
-    // // draws the obstacles
-    for(var i = 0; i < obstacleArray.length; i++){
+    // draws the obstacles
+    for(var i =0; i < obstacleArray.length; i++){
         obstacleArray[i].update();
     }
-    // // checks game logic
-    // gameLogic();
+    // checks game logic
+    gameLogic();
     drawFrog();
     car_collision();
     water_collision();
@@ -97,9 +90,6 @@ function drawBackground() {
     ctx.fillStyle = "white";
     ctx.fillText('SCORE', 10, 18);
     ctx.fillText('HIGH SCORE', 300, 18);
-
-
-
 }
 
 function drawFrog() {
@@ -185,11 +175,14 @@ function isMoveValid(x,y) {
         return false;
     }
 }
+var logbreakpoint = [527, 621, 560];
+var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
 
-var breakpoint = [-27, 470, -30, 470, -50, -33, 527, 621, -33, 560];
-var startpoint1 = [440, -30, 440, -30, 440, 440, -87, -181, 440, -120];
-var startpoint2 = [521, -176, 521, -176, 521, 521, -233, -327, 521, -266];
-var startpoint3 = [629, -322, 629, -322, 629, 629, -379, -473, 629, -412];
+var breakpoint = [-27, 470, -30, 470, -50, -33, -33];
+
+var startpoint1 = [440, -30, 440, -30, 440, 440, 440];
+var startpoint2 = [613, -206, 616, -206, 636, 473, 473];
+var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
 
 var obstacleArray = [
     // road obstacles
@@ -219,21 +212,21 @@ var obstacleArray = [
     new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
     new Obstacle(sprites, 14, 405, 33, 25, startpoint3[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
     // water row 2
-    new Obstacle(sprites, 6, 228, 87, 24, startpoint1[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
-    new Obstacle(sprites, 6, 228, 87, 24, startpoint2[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
-    new Obstacle(sprites, 6, 228, 87, 24, startpoint3[6], 210, 87, 24, 'from left to right', 'slow', breakpoint[6]),
+    new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[0], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
+    new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[1], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
+    new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[2], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
     // water row 3
-    new Obstacle(sprites, 6, 164, 181, 24, startpoint1[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
-    new Obstacle(sprites, 6, 164, 181, 24, startpoint2[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
-    new Obstacle(sprites, 6, 164, 181, 24, startpoint3[7], 170, 181, 24, 'from left to right', 'fast', breakpoint[7]),
+    new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[3], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
+    new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[4], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
+    new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[5], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
     // water row 4
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
-    new Obstacle(sprites, 14, 405, 33, 25, startpoint3[8], 130, 33, 25, 'from right to left', 'fast', breakpoint[8]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint1[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint2[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
+    new Obstacle(sprites, 14, 405, 33, 25, startpoint3[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
     // water row 5
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint1[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint2[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9]),
-    new Obstacle(sprites, 6, 196, 120, 24, startpoint3[9], 90, 120, 24, 'from left to right', 'medium', breakpoint[9])
+    new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[6], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
+    new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[7], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
+    new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
 ];
 
 function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed, reset) {
@@ -258,20 +251,29 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
         if(this.direction == 'from left to right'){
             if(this.speed == 'slow'){
                 this.dx += .5;
-                if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                if (this.dx > this.resetAtXvalue && this.resetAtXvalue === logbreakpoint[0]){
+                    this.dx = -174;
+                }
+                if(this.dx > this.resetAtXvalue && this.resetAtXvalue != logbreakpoint[0]){
+                    this.dx = -30;
                 }
             }
             if(this.speed == 'medium'){
                 this.dx += 1;
-                if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                if (this.dx > this.resetAtXvalue && this.resetAtXvalue === logbreakpoint[2]){
+                    this.dx = -240;
+                }
+                if(this.dx > this.resetAtXvalue && this.resetAtXvalue != logbreakpoint[2]){
+                    this.dx = -30;
                 }
             }
             if(this.speed == 'fast'){
-                this.dx += 1.5;
-                if(this.dx > this.resetAtXvalue){
-                    this.dx = destx;
+                this.dx += 1.25;
+                if (this.dx > this.resetAtXvalue && this.resetAtXvalue === logbreakpoint[1]){
+                    this.dx = -362;
+                }
+                if(this.dx > this.resetAtXvalue && this.resetAtXvalue != logbreakpoint[1]){
+                    this.dx = -30;
                 }
             }
         }
@@ -279,19 +281,19 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             if(this.speed == 'slow'){
                 this.dx -= .5;
                 if(this.dx < this.resetAtXvalue){
-                    this.dx = 440;
+                    this.dx = 470;
                 }
             }
             if(this.speed == 'medium'){
                 this.dx -= 1;
                 if(this.dx < this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 470;
                 }
             }
             if(this.speed == 'fast'){
-                this.dx -= 1.5;
+                this.dx -= 1.25;
                 if(this.dx < this.resetAtXvalue){
-                    this.dx = destx;
+                    this.dx = 490;
                 }
             }
         }
@@ -383,7 +385,7 @@ function logRide() {
                     posX += 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX += 1.5;
+                    posX += 1.25;
                 }
             }
             if(obs.direction == 'from right to left'){
@@ -394,7 +396,7 @@ function logRide() {
                     posX -= 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX -= 1.5;
+                    posX -= 1.25;
                 }
             }
         }
