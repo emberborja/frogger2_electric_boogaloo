@@ -22,6 +22,9 @@ var posX = 200;
 var posY = 530;
 var facing = '';
 
+// Time variable
+var sec = 10;
+
 // TODO
     // onREadyState function
         // Load background and frog in starting position
@@ -32,10 +35,20 @@ var facing = '';
             // Allows frog movement from user input
             // Refreshes score
             // Run collision function
-// setInterval(animate,10);
+setInterval(gameTime, sec);
+
+function gameTime() {
+    if (facing != 'dead') {
+        animate();
+    }
+    else {
+        reset();
+    }
+}
+
 function animate() {
     // infinite loop
-    requestAnimationFrame(animate);
+    // requestAnimationFrame(animate);
     // clears the canvas everytime infinite loop runs
     ctx.clearRect(0, 0, innerWidth, innerHeight);
     // calls these functions everytime the infinite loop runs
@@ -50,6 +63,7 @@ function animate() {
     car_collision();
     water_collision();
     logRide();
+    gameLogic();
 }
 
 // Render background
@@ -99,6 +113,7 @@ function drawFrog() {
     // If collion occurs draw deathSprite in that position
     else if ( facing == 'dead' ) {
         ctx.drawImage(deathSprite, posX, posY, 30, 22);
+        animate.stop
     }
 }
 
@@ -317,7 +332,6 @@ function gameLogic() {
 }
 
 function car_collision() {
-    // Flag
 
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
@@ -336,11 +350,16 @@ function water_collision() {
     for (var i = 15; i < 30; i = i+3) {
         var obs = obstacleArray[i];
         var count = 0;
+
+        // With three objects on every row we have to check for collisions with
+        // all three to see if frog is in the water
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
             if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw/2) || (posX < obs.dx - obs.dw/2))) {
                 count++;
             }
+            // If frog is not on any of the three objects in a row then frog
+            // is dead
             if (count == 3) {
             facing = 'dead';
             }
@@ -353,7 +372,11 @@ function logRide() {
     // For loop to check every obstacleX
     for (var i = 15; i < 30; i++) {
         var obs = obstacleArray[i];
+
+        // If frog is on an object in the water
         if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+
+            // Increment frog position according to object speed
             if(obs.direction == 'from left to right'){
                 if(obs.speed == 'slow'){
                     posX += .5;
@@ -382,19 +405,7 @@ function logRide() {
 
 
 function reset() {
-    // Move frog to start
+
     posX = 200;
-    posy = 530;
-
-    // Reset score
-    // score = 0;
-    // currentScore = 0;
-    isAlive = true;
+    posY = 530;
 }
-
-// function didFinish() {
-//     if (posY == (50)) {
-//         ctx.drawImage(sprites, 10, 365, 30, 22, posX, 50, 30, 22);
-//     }
-// }
-animate();
