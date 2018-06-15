@@ -66,6 +66,7 @@ function animate() {
     water_collision();
     logRide();
     gameLogic();
+    winner();
 }
 
 // Render background
@@ -414,10 +415,23 @@ function reset() {
 
     posX = 200;
     posY = 530;
-    score = 0;
-    currentScore = 0;
+    if (!winner()) {
+        score = 0;
+        currentScore = 0;
+    }
     if (lives == 0) {
         // Display losing message
         ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
     }
+}
+
+function winner() {
+    if (posY == 50) {
+        currentScore = score + 300;
+
+        console.log("Congratu-fucking-lations!");
+        reset();
+
+    }
+    return true;
 }
