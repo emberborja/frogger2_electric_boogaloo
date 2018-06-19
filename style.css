@@ -17,6 +17,25 @@ body {
     text-align: center;
 }
 
+
+#controls{
+  text-align: center;
+}
+
+button{
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: red;
+  background-color: black;
+  height: 30px;
+  width: 90px;
+  display: inline-block;
+}
+
+button:focus{
+  outline: 0;
+}
+
 img {
     display: none;
 }

@@ -1,6 +1,7 @@
 // Initialize canvas element
 var game = document.getElementById('game');
 var ctx = game.getContext('2d');
+var newGameBtn = document.getElementById('newGameBtn');
 
 // Include sprites
 var sprites = new Image();
@@ -33,7 +34,7 @@ var frogY = 530;
 var facing = 'up';
 
 // Sets game speed by rendering a frame every xx milliseconds
-var gameSpeed = 30;
+var gameSpeed = 10;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -48,6 +49,10 @@ var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
 //flags to check for occupied home spaces
 var homeSpaceArray = [0,0,0,0,0];
 
+
+
+newGameBtn.style.display = 'none';
+newGameBtn.onclick = newGame;
 
 
 
@@ -477,7 +482,78 @@ function reset() {
     if (lives == 0) {
         // Display losing message
         ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+        newGameBtn.style.display = 'inline-block';
     }
+}
+
+
+function newGame(){
+  console.log('starting new game');
+   score = 0;
+   currentScore = 0;
+   highScore = 0;
+  if (window.localStorage['highScore']) {
+      highScore = localStorage['highScore'];
+  }
+  lives = 3;
+  frogWidth = 30;
+  frogHeight = 22;
+  frogX = 200;
+  frogY = 530;
+  facing = 'up';
+  gameSpeed = 10;
+  logbreakpoint = [527, 621, 560];
+  logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
+  breakpoint = [-27, 470, -30, 470, -50, -33, -33];
+  startpoint1 = [440, -30, 440, -30, 440, 440, 440];
+  startpoint2 = [613, -206, 616, -206, 636, 473, 473];
+  startpoint3 = [759, -382, 792, -382, 832, 506, 506];
+  homeSpaceArray = [0,0,0,0,0];
+  newGameBtn.style.display = 'none';
+  obstacleArray = [
+      // road obstacles
+      // car row 1
+      new Obstacle(sprites, 80, 262, 27, 28, startpoint1[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+      new Obstacle(sprites, 80, 262, 27, 28, startpoint2[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+      new Obstacle(sprites, 80, 262, 27, 28, startpoint3[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
+      // car row 2
+      new Obstacle(sprites, 70, 300, 30, 23, startpoint1[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+      new Obstacle(sprites, 70, 300, 30, 23, startpoint2[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+      new Obstacle(sprites, 70, 300, 30, 23, startpoint3[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
+      // car row 3
+      new Obstacle(sprites, 10, 265, 30, 23, startpoint1[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+      new Obstacle(sprites, 10, 265, 30, 23, startpoint2[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+      new Obstacle(sprites, 10, 265, 30, 23, startpoint3[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
+      // car row 4
+      new Obstacle(sprites, 45, 263, 30, 27, startpoint1[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+      new Obstacle(sprites, 45, 263, 30, 27, startpoint2[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+      new Obstacle(sprites, 45, 263, 30, 27, startpoint3[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
+      // car row 5
+      new Obstacle(sprites, 105, 300, 50, 21, startpoint1[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+      new Obstacle(sprites, 105, 300, 50, 21, startpoint2[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+      new Obstacle(sprites, 105, 300, 50, 21, startpoint3[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
+      // water obstacles
+      // water row 1
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint1[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint3[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
+      // water row 2
+      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[0], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
+      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[1], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
+      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[2], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
+      // water row 3
+      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[3], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
+      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[4], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
+      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[5], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
+      // water row 4
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint1[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint2[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
+      new Obstacle(sprites, 14, 405, 33, 25, startpoint3[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
+      // water row 5
+      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[6], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
+      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[7], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
+      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
+  ];
 }
 
 function winner() {
@@ -532,6 +608,7 @@ function winner() {
         if (lives == 0) {
             // Display losing message
             ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+            newGameBtn.style.display = 'inline-block';
       }
     }
 
