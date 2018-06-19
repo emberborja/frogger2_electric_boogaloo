@@ -32,7 +32,7 @@ var frogX = 200;
 var frogY = 530;
 var facing = 'up';
 
-var rowHeight = 40;
+var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
 var gameSpeed = 30;
@@ -238,17 +238,19 @@ function animate() {
 
 // Render background
 function drawBackground() {
-    // water
+    // water 0 x, 
     ctx.fillStyle = '#4d94ff';
-    ctx.fillRect(0, 40, game.width, 240);
+    ctx.fillRect(0, rowHeight, game.width, rowHeight*6);
     // road
     ctx.fillStyle = '#404040';
-    ctx.fillRect(0, 320, game.width, 200);
+    ctx.fillRect(0, rowHeight*7, game.width, rowHeight*6);
     // safe zone bottom
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, game.width, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*13, game.width, rowHeight);
     // safe zone middle
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, game.width, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*7, game.width, rowHeight);
     // grass
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, 44);
+
 
 
     //if first homeSpaceArray flag is triggered, first home space is occupied
@@ -272,13 +274,12 @@ function drawBackground() {
       ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
     };
 
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, game.width, 44);
-
+    
     // top black stripe
     ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, game.width, 40);
+    ctx.fillRect(0, 0, game.width, rowHeight*1.1);
     // bottom black stripe
-    ctx.fillRect(0, 560, game.width, 40);
+    ctx.fillRect(0, rowHeight*13.9, game.width, rowHeight*1.1);
     //  Score and high score text
     ctx.font = 'bold 24px VT323';
     ctx.fillStyle = "white";
@@ -289,7 +290,7 @@ function drawBackground() {
 function drawFrog() {
     // If alive draws the frog with it's new position values
     if ( facing == 'left' ) {
-        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, 30, 22);
+        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     else if ( facing == 'up' ) {
