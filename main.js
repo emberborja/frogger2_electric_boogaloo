@@ -19,7 +19,7 @@ var currentScore = 0;
 var highScore = 0;
 if (window.localStorage['highScore']) {
     highScore = localStorage['highScore'];
-} 
+}
 
 var lives = 3;
 
@@ -43,6 +43,13 @@ var breakpoint = [-27, 470, -30, 470, -50, -33, -33];
 var startpoint1 = [440, -30, 440, -30, 440, 440, 440];
 var startpoint2 = [613, -206, 616, -206, 636, 473, 473];
 var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
+
+
+//flags to check for occupied home spaces
+var homeSpaceArray = [0,0,0,0,0];
+
+
+
 
 
 
@@ -240,7 +247,31 @@ function drawBackground() {
     // safe zone middle
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, game.width, 44);
     // grass
+
+
+    //if first homeSpaceArray flag is triggered, first home space is occupied
+    if (homeSpaceArray[0] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, 30, 22);
+    };
+    //if second homeSpaceArray flag is triggered, second home space is occupied
+    if (homeSpaceArray[1] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, 30, 22);
+    };
+    //if third homeSpaceArray flag is triggered, third home space is occupied
+    if (homeSpaceArray[2] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, 30, 22);
+    };
+    //if fourth homeSpaceArray flag is triggered, fourth home space is occupied
+    if (homeSpaceArray[3] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, 30, 22);
+    };
+    //if fifth homeSpaceArray flag is triggered, fifth home space is occupied
+    if (homeSpaceArray[4] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
+    };
+
     ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, game.width, 44);
+
     // top black stripe
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, game.width, 40);
@@ -380,10 +411,12 @@ function water_collision() {
             }
             // If frog is not on any of the three objects in a row then frog
             // is dead
-            if (count == 3) {
-                facing = 'dead';
-                lives--;
-                ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+        if (count == 3) {
+
+          facing = 'dead';
+          lives--;
+          ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+
             }
         }
     }
@@ -427,9 +460,16 @@ function logRide() {
 
 
 function reset() {
-
     frogX = 200;
     frogY = 530;
+    //checks if all home spaces are occupied
+    if (homeSpaceArray.indexOf(0) == -1){
+      console.log('Victory!')
+      //clears all home spaces
+      homeSpaceArray = [0,0,0,0,0];
+      //awards extra life
+      lives++;
+      }
     if (!winner()) {
         score = 0;
         currentScore = 0;
@@ -441,12 +481,59 @@ function reset() {
 }
 
 function winner() {
-    if (frogY == 50) {
-        currentScore = score + 300;
 
-        console.log("Congratu-freaking-lations!");
-        reset();
-
+      //if frog jumps in first homespace and it is empty
+      if (((frogY == 50) && (frogX > 5 && frogX < 25)) && homeSpaceArray[0] == 0) {
+          currentScore = score + 300;
+          //triggers first homespace flag
+          homeSpaceArray[0]++;
+          console.log(frogX);
+          reset();
+      } else
+      //if frog jumps in second homespace and it is empty
+      if (((frogY == 50) && (frogX > 95 && frogX < 115)) && homeSpaceArray[1] == 0) {
+          currentScore = score + 300;
+          //triggers second homespace flag
+          homeSpaceArray[1]++;
+          console.log(frogX);
+          reset();
+      } else
+      //if frog jumps in third homespace and it is empty
+      if (((frogY == 50) && (frogX > 190 && frogX < 215)) && homeSpaceArray[2] == 0) {
+          currentScore = score + 300;
+          //triggers third homespace flag
+          homeSpaceArray[2]++;
+          console.log(frogX);
+          reset();
+      } else
+      //if frog jumps in fourth homespace and it is empty
+      if (((frogY == 50) && (frogX > 285 && frogX < 305)) && homeSpaceArray[3] == 0) {
+          currentScore = score + 300;
+          //triggers fourth homespace flag
+          homeSpaceArray[3]++;
+          console.log(frogX);
+          reset();
+      } else
+      //if frog jumps in fifth homespace and it is empty
+      if (((frogY == 50) && (frogX > 378 && frogX < 398)) && homeSpaceArray[4] == 0) {
+          currentScore = score + 300;
+          //triggers fifth homespace flag
+          homeSpaceArray[4]++;
+          console.log(frogX);
+          reset();
+      } else
+      //if frog doesn't jump in empty homespace
+      if (frogY == 50){
+        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+        lives--;
+        frogX = 200;
+        frogY = 530;
+        facing = 'dead';
+        if (lives == 0) {
+            // Display losing message
+            ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+      }
     }
+
     return true;
 }
