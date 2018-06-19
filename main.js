@@ -341,7 +341,8 @@ function gameLogic() {
     ctx.fillText('' + highScore + '', 300, 38);
 
     for (var i = 0; i < lives; i++) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5+(30*i), 565, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5+(30*i), 565, 30, 22)
+    }
 }
 
 function car_collision() {
@@ -375,9 +376,9 @@ function water_collision() {
             // If frog is not on any of the three objects in a row then frog
             // is dead
             if (count == 3) {
-            facing = 'dead';
-            lives--;
-            ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+                facing = 'dead';
+                lives--;
+                ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
             }
         }
     }
