@@ -367,14 +367,14 @@ function car_collision() {
 
 function water_collision() {
     for (var i = 15; i < 30; i = i+3) {
-        var obs = obstacleArray[i];- obs.dw/2
+        var obs = obstacleArray[i];
         var count = 0;
 
         // With three objects on every row we have to check for collisions with
         // all three to see if frog is in the water
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
-            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx))) {
+            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw/2))) {
                 count++;
             }
             // If frog is not on any of the three objects in a row then frog
