@@ -26,7 +26,7 @@
 * The frog will start at the bottom of the screen before a road of moving vehicles in a safe strip of purple grass found in frogger-sprites.png.
 
 ### 2) The Road
-* Directly above the grass lane is a 6 vehicle wide road. The road has no sprite background but is just black. It has the height of 6 tileHeight tall and the width of the purple grass. On the 'road' is motor vehicles that can be found in frogger-sprites.png.
+* Directly above the grass lane is a 5 tileHeight tall road. The road has no sprite background but is just black. It has the height of 5 tileHeight tall and the width of the purple grass. On the 'road' is motor vehicles that can be found in frogger-sprites.png.
 
 #### Motor Vehicles
 * purple cars
@@ -57,22 +57,83 @@
 
 TODO: Add Game Mechanics like the dipping turtles, the obstacle/surface movement, and the ways to die.
 
+## Specific Game Mechanics
+### Death
+* Player can 'die' in the following ways:
+	** When player collides with a motor vehicle
+	** When player collides with water
+	** When player is on aset of turtles that 'dip' under the water
+
+### Dipping Turtles
+* Certain rows of turtles selected randomly should 'dip' under the water. When a row of turtles 'dip' under the water the turtles stop being a surface and if Frogger is on them when they dip, he collides with the water and 'dies'.
+
+### Obstacle and Surface Movement and Order
+* Obstacles and Surfaces move from one side of the map to the other in the road rows and the water rows.
+
+* The map should work and look exactly as described from the top row to the bottom:
+
+	** The Finishing Area/'Home'
+	** Medium Logs going from Left to Right
+	** A Row of 2 Turtles going from Right to Left
+	** Long Logs going from Right to Left
+	** Small Logs going from Right to Left
+	** A Row of 3 Turtles going from Right to Left
+	** Purple Grass/Safe Zone
+	** White Trucks going from Right to Left
+	** White Dune Buggies going from Left to Right
+	** Purple Cars going from Right to Left
+	** White Bulldozers going from Left To Right
+	** Yellow Taxis going from Right to Left
+	** Purple Grass/Safe Zone Where Frogger Spawns
+
+### Obstacle and Surface Speeds and Counts
+* Each obstacle and surface has a different speed ranging from fast, medium, and slow.
+	** The Yellow Taxis are slow
+	** The White Bulldozers are slow
+	** The Purple Cars are medium
+	** The White Dune Buggies are fast
+	** The White Trucks are fast
+	** The Row of 3 Turtles are slow
+	** The Row of  2 Turtles are fast
+	** The Small logs are slow
+	** The Long Logs are fast
+	** The Medium Logs are medium
+
+* Each obstacle and surface have a different maximum and minimum that are allowed on the screen at a time.
+	** All motor vehicles should have a minimum of 2 vehicles per vehicle row and a maximum of 3.
+	** Short logs should have a minimum of 2 short logs per short log row and a maximum of 3.
+	** Medium logs should have a minimum of 3 medium logs per medium log row and a maximum of 3 and a half.
+	** Long logs should have a minimum of 2 per long log row and a maximum of 2 and a half
+	** The row of 3 turtles should have a minimum of 3 in that turtle row and maximum of 3 and a half.
+	** The row of 2 turtles should have a minimum of 3 in that turtle row and a maximum of 4.
+
+
+### The Safe Zones
+* The purple grass safe zones are rows that don't have any obstacles or surfaces. It is just a row where Frogger can stop without fear of 'drowning' or becoming 'roadkill'.
+
+
+
 TODO: This point and lower need to be revised.
 ## Player Characteristics
 
 * Using the arrow keys the player must guide the frog between opposing lanes of traffic to avoid becoming 'roadkill' which results in the loss of one life.
-** When a life is 'lost' one of the frog sprites, mentioned in game initialization, should be removed
+** When a life is 'lost' one of the frog sprites, mentioned in game initialization, should be removed.
 
-* When the player becomes 'roadkill' by being hit by a car or jumping in water where there is no log or turtle surface a death sprite should appear where the movable frog character was.
+* When the player becomes 'roadkill' by being hit by a car or jumping in water where there is no log or turtle surface a death sprite should appear where the movable frog character was and the playable character should respawn at the beginning of the map.
+
+* When the player reaches the end of the map and lands in one of the open spaces of 'home' he should respawn at the beginning of the map.
 
 ## Win Conditions
-* Score should increment for every row achieved
+* Score should increment by 10 by for every row achieved.
 
-* Colliding with an obstacle like a car or water should result in a death sprite onscreen
+* If frogger goes 'backwards' (back towards spawn) the score remains the same until he is back on the last row he gained points at.
+
+* Colliding with an obstacle like a car or water should result in a death sprite onscreen but will not decrease score
 	** Frog should reset at bottom of grid, and the life counter should be decremented.
 
-* If all frogs make it to the top of the grid a winning message should display
-    ** If frog makes it to top of grid, frog stays, and new frog is reset at bottom. Score does not reset.
+* If five frogs make it to the top of the map and land in all five home open spaces a winning message should display
+    ** If frog makes it to top of grid, frog stays and frogger won't be able to land in that home position anymore. 
+    New frog is reset at bottom. Score does not reset.
 
 ## Lose Conditions
 * If all lives are lost a Game Over Sprite should appear
