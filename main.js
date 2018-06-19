@@ -47,8 +47,8 @@ var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
 
 //flags to check for occupied home spaces
 var homeSpaceArray = [0,0,0,0,0];
-//condition to check for all occupied home spaces
-var victoryCheckArray = [1,1,1,1,1];
+
+
 
 
 
@@ -411,11 +411,11 @@ function water_collision() {
             }
             // If frog is not on any of the three objects in a row then frog
             // is dead
-            if (count == 3) {
+        if (count == 3) {
 
-            facing = 'dead';
-            lives--;
-            ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+          facing = 'dead';
+          lives--;
+          ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
 
             }
         }
@@ -463,7 +463,7 @@ function reset() {
     frogX = 200;
     frogY = 530;
     //checks if all home spaces are occupied
-    if (JSON.stringify(homeSpaceArray) == JSON.stringify(victoryCheckArray)){
+    if (homeSpaceArray.indexOf(0) == -1){
       console.log('Victory!')
       //clears all home spaces
       homeSpaceArray = [0,0,0,0,0];
