@@ -1,41 +1,39 @@
-
-// Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
-window.addEventListener('keydown',
-    function(event) {
-        if (lives > 0) {
-        var keypress = event.keyCode;
-        move(keypress);
-        }
-    })
-
 // Initialize canvas element
 var game = document.getElementById('game');
 var ctx = game.getContext('2d');
 
 // Include sprites
 var sprites = new Image();
-sprites.src = 'assets/frogger-sprites.png';
 var deathSprite = new Image();
-deathSprite.src = 'assets/skull-sprite.png'
 var gameOverSprite = new Image();
+
+sprites.src = 'assets/frogger-sprites.png';
+deathSprite.src = 'assets/skull-sprite.png'
 gameOverSprite.src = 'assets/gameOverSprite.png';
 
 // Set score variables
+// currentScore is used to ensure you only gain points when you reach a
+// new max row, it's a running total at any point and can decrement.
 var score = 0;
-var highScore = 0;
-var lives = 3;
-    // Variable to hold current high score to display as 'score'. This way the
-    // player cannot score by going backward and forward over and over in the
-    // same place.
 var currentScore = 0;
+var highScore = 0;
+if (window.localStorage['highScore']) {
+    highScore = localStorage['highScore'];
+} 
+
+var lives = 3;
+
+// Original Frog Size from Sprite Sheet
+var frogWidth = 30;
+var frogHeight = 22;
 
 // Frog position
-var posX = 200;
-var posY = 530;
+var frogX = 200;
+var frogY = 530;
 var facing = 'up';
 
-// Time variable
-var sec = 10;
+// Sets game speed by rendering a frame every xx milliseconds
+var gameSpeed = 30;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -45,6 +43,9 @@ var breakpoint = [-27, 470, -30, 470, -50, -33, -33];
 var startpoint1 = [440, -30, 440, -30, 440, 440, 440];
 var startpoint2 = [613, -206, 616, -206, 636, 473, 473];
 var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
+
+
+
 
 // OBSTACLES
 // first row: purple yello car, right to left, slow [0]
@@ -102,6 +103,14 @@ var obstacleArray = [
     new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[7], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
     new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
 ];
+
+window.addEventListener('keydown',
+    function(event) {
+        if (lives > 0) {
+        var keypress = event.keyCode;
+        move(keypress);
+        }
+    })
 
 function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, desty, destwidth, destheight, direction, speed, reset) {
     this.s = source;
@@ -185,7 +194,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
             // Allows frog movement from user input
             // Refreshes score
             // Run collision function
-setInterval(gameTime, sec);
+setInterval(gameTime, gameSpeed);
 
 function gameTime() {
     if (facing != 'dead') {
@@ -197,11 +206,12 @@ function gameTime() {
 }
 
 function animate() {
-    // infinite loop
-    // requestAnimationFrame(animate);
-    // clears the canvas everytime infinite loop runs
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // calls these functions everytime the infinite loop runs
+    // Game loop, runs every frame,
+
+    // clears the canvas every before rendering new frame.
+    ctx.clearRect(0, 0, game.width, game.height);
+
+    // calls these functions every frame
     drawBackground();
     // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
@@ -221,21 +231,21 @@ function animate() {
 function drawBackground() {
     // water
     ctx.fillStyle = '#4d94ff';
-    ctx.fillRect(0, 40, 440, 240);
+    ctx.fillRect(0, 40, game.width, 240);
     // road
     ctx.fillStyle = '#404040';
-    ctx.fillRect(0, 320, 440, 200);
+    ctx.fillRect(0, 320, game.width, 200);
     // safe zone bottom
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, game.width, 44);
     // safe zone middle
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, game.width, 44);
     // grass
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, game.width, 44);
     // top black stripe
     ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 440, 40);
+    ctx.fillRect(0, 0, game.width, 40);
     // bottom black stripe
-    ctx.fillRect(0, 560, 440, 40);
+    ctx.fillRect(0, 560, game.width, 40);
     //  Score and high score text
     ctx.font = 'bold 24px VT323';
     ctx.fillStyle = "white";
@@ -246,58 +256,58 @@ function drawBackground() {
 function drawFrog() {
     // If alive draws the frog with it's new position values
     if ( facing == 'left' ) {
-        ctx.drawImage(sprites, 80, 335, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'up' ) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'right' ) {
-        ctx.drawImage(sprites, 12, 335, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'down' ) {
-        ctx.drawImage(sprites, 74, 365, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, 30, 22);
     }
 
     // If collion occurs draw deathSprite in that position
     else if ( facing == 'dead' ) {
-        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
     }
 }
 
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveValid(posX-32, posY)) {
-        posX -= 40;
+    if (keypress == 37 && isMoveValid(frogX-32, frogY)) {
+        frogX -= 40;
         facing = 'left';
-        ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
+        ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 38 && isMoveValid(posX, posY-40)) {
-        posY -= 40;
+    else if (keypress == 38 && isMoveValid(frogX, frogY-40)) {
+        frogY -= 40;
         facing = 'up';
         currentScore += 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
 
     }
-    else if (keypress == 39 && isMoveValid(posX+32, posY)) {
-        posX += 40;
+    else if (keypress == 39 && isMoveValid(frogX+32, frogY)) {
+        frogX += 40;
         facing = 'right';
-        ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
+        ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 40 && isMoveValid(posX, posY+40)) {
-        posY += 40;
+    else if (keypress == 40 && isMoveValid(frogX, frogY+40)) {
+        frogY += 40;
         facing = 'down';
         currentScore -= 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
     }
 }
 
 // Check if proposed move is valid (on screen)
 function isMoveValid(x,y) {
-    if (x > 2 && x < 420 && y > 89 && y < 560 ) {
+    if (x >= 0 && x < 420 && y > 89 && y < 560 ) {
         return true;
     } else if(y > 30 && y < 90 && (x < 50)){
         console.log('score1');
@@ -313,7 +323,7 @@ function isMoveValid(x,y) {
         return true;
     }
     else{
-        console.log('false');
+        console.log('false', x, y);
         return false;
     }
 }
@@ -321,14 +331,12 @@ function isMoveValid(x,y) {
 
 // GAME LOGIC
 function gameLogic() {
-    // If statement to only display highest currentScore
-    if (score < currentScore) {
+    // If statement to prevent score from decrementing, currentScore
+    // is never shown.
+    if (currentScore > score) {
         score = currentScore;
     }
 
-    if (window.localStorage['highScore']) {
-        highScore = localStorage['highScore'];
-    } else highScore = 0;
     if (score > highScore) {
         localStorage['highScore'] = score;
         highScore = score;
@@ -337,15 +345,8 @@ function gameLogic() {
     ctx.fillText('' + score + '', 10, 38);
     ctx.fillText('' + highScore + '', 300, 38);
 
-    if (lives == 3) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 65, 565, 30, 22);
-    } else if (lives == 2) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
-        ctx.drawImage(sprites, 10, 365, 30, 22, 35, 565, 30, 22);
-    } else if (lives == 1) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, 5, 565, 30, 22);
+    for (var i = 0; i < lives; i++) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, 5+(30*i), 565, 30, 22)
     }
 }
 
@@ -354,13 +355,13 @@ function car_collision() {
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
         var obs = obstacleArray[i];
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+        if (frogY == obs.dy && ((frogX < obs.dx + obs.dw/2) && (frogX > obs.dx - obs.dw/2))) {
 
            // Decrement lives
            lives--;
 
            facing = 'dead';
-           ctx.drawImage(deathSprite, posX, posY, 30, 22);
+           ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
         }
     }
 }
@@ -374,15 +375,15 @@ function water_collision() {
         // all three to see if frog is in the water
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
-            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw/2))) {
+            if (i >= 15 && frogY == obs.dy && ((frogX > obs.dx + obs.dw) || (frogX < obs.dx - obs.dw/2))) {
                 count++;
             }
             // If frog is not on any of the three objects in a row then frog
             // is dead
             if (count == 3) {
-            facing = 'dead';
-            lives--;
-            ctx.drawImage(deathSprite, posX, posY, 30, 22);
+                facing = 'dead';
+                lives--;
+                ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
             }
         }
     }
@@ -395,29 +396,29 @@ function logRide() {
         var obs = obstacleArray[i];
 
         // If frog is on an object in the water
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx))) {
+        if (frogY == obs.dy && ((frogX < obs.dx + obs.dw) && (frogX > obs.dx))) {
 
             // Increment frog position according to object speed
             if(obs.direction == 'from left to right'){
                 if(obs.speed == 'slow'){
-                    posX += .5;
+                    frogX += .5;
                 }
                 if(obs.speed == 'medium'){
-                    posX += 1;
+                    frogX += 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX += 1.25;
+                    frogX += 1.25;
                 }
             }
             if(obs.direction == 'from right to left'){
                 if(obs.speed == 'slow'){
-                    posX -= .5;
+                    frogX -= .5;
                 }
                 if(obs.speed == 'medium'){
-                    posX -= 1;
+                    frogX -= 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX -= 1.25;
+                    frogX -= 1.25;
                 }
             }
         }
@@ -427,8 +428,8 @@ function logRide() {
 
 function reset() {
 
-    posX = 200;
-    posY = 530;
+    frogX = 200;
+    frogY = 530;
     if (!winner()) {
         score = 0;
         currentScore = 0;
@@ -440,10 +441,10 @@ function reset() {
 }
 
 function winner() {
-    if (posY == 50) {
+    if (frogY == 50) {
         currentScore = score + 300;
 
-        console.log("Congratu-fucking-lations!");
+        console.log("Congratu-freaking-lations!");
         reset();
 
     }
