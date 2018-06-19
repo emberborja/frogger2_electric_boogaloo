@@ -69,6 +69,7 @@ var destheight = [28, 23, 23, 27, 21, 25, 24, 24, 25, 24];
 //flags to check for occupied home spaces
 var homeSpaceArray = [0,0,0,0,0];
 
+
 // OBSTACLES
 // first row: purple yello car, right to left, slow [0]
 // second row: bulldozer car, left to right, slow [1]
@@ -119,6 +120,14 @@ var obstacleArray = [
     new Obstacle(medLogs, logstartpoint[6], desty[9], destwidth[9], destheight[9], 'from left to right', 'medium', logbreakpoint[2])
     // Orignal code: new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
 ];
+
+window.addEventListener('keydown',
+    function(event) {
+        if (lives > 0) {
+        var keypress = event.keyCode;
+        move(keypress);
+        }
+    })
 
 function Obstacle(source, destx, desty, destwidth, destheight, direction, speed, reset) {
     this.s = source[0];
