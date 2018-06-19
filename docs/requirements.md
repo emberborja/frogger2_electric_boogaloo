@@ -26,7 +26,7 @@
 * The frog will start at the bottom of the screen before a road of moving vehicles in a safe strip of purple grass found in frogger-sprites.png.
 
 ### 2) The Road
-* Directly above the grass lane is a 5 tileHeight tall road. The road has no sprite background but is just black. It has the height of 5 tileHeight tall and the width of the purple grass. On the 'road' is motor vehicles that can be found in frogger-sprites.png.
+* Directly above the grass lane is a 5 tileHeight tall road. The road has no sprite background but is just black. It has the height of 5 tileHeight tall and the width of the purple grass. On the 'road' are motor vehicles that can be found in frogger-sprites.png.
 
 #### Motor Vehicles
 * purple cars
@@ -49,13 +49,11 @@
 * Long Logs
 
 ### 5) Finishing Area/'Home'
-* At the very top of the map is the finishing area/'home'. Using the green grass area with 5 empty spaces. In between each space is a lilly pad which is found in TODO:file.png
+* At the very top of the map is the finishing area/'home'. Using the green grass area with 5 empty spaces.
 
 ## Game Screen Around The Map
 * Right above the map there should be a the string 'SCORE' on the left and 'HIGH SCORE' on the right. Right below the 'SCORE' should be the current score and below the 'HIGH SCORE' should be the high score that is saved in local storage.
 * Right below the map on the left should be the 3 frog sprite player lives.
-
-TODO: Add Game Mechanics like the dipping turtles, the obstacle/surface movement, and the ways to die.
 
 ## Specific Game Mechanics
 ### Death
@@ -107,14 +105,10 @@ TODO: Add Game Mechanics like the dipping turtles, the obstacle/surface movement
 	** The row of 3 turtles should have a minimum of 3 in that turtle row and maximum of 3 and a half.
 	** The row of 2 turtles should have a minimum of 3 in that turtle row and a maximum of 4.
 
-
 ### The Safe Zones
 * The purple grass safe zones are rows that don't have any obstacles or surfaces. It is just a row where Frogger can stop without fear of 'drowning' or becoming 'roadkill'.
 
-
-
-TODO: This point and lower need to be revised.
-## Player Characteristics
+## Player Game Mechanics
 
 * Using the arrow keys the player must guide the frog between opposing lanes of traffic to avoid becoming 'roadkill' which results in the loss of one life.
 ** When a life is 'lost' one of the frog sprites, mentioned in game initialization, should be removed.
