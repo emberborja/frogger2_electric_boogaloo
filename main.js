@@ -46,6 +46,8 @@ var frogX = 200;
 var frogY = 530;
 var facing = 'up';
 
+var rowHeight = game.height/15;
+
 // Sets game speed by rendering a frame every xx milliseconds
 var gameSpeed = 30;
 
@@ -248,15 +250,17 @@ function animate() {
 function drawBackground() {
     // water
     ctx.fillStyle = '#4d94ff';
-    ctx.fillRect(0, 40, game.width, 240);
+    ctx.fillRect(0, rowHeight, game.width, rowHeight*6);
     // road
     ctx.fillStyle = '#404040';
-    ctx.fillRect(0, 320, game.width, 200);
+    ctx.fillRect(0, rowHeight*7, game.width, rowHeight*6);
     // safe zone bottom
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, game.width, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*13, game.width, rowHeight);
     // safe zone middle
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, game.width, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*7, game.width, rowHeight);
     // grass
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, 44);
+
 
 
     //if first homeSpaceArray flag is triggered, first home space is occupied
@@ -280,13 +284,12 @@ function drawBackground() {
       ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
     };
 
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, game.width, 44);
-
+    
     // top black stripe
     ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, game.width, 40);
+    ctx.fillRect(0, 0, game.width, rowHeight*1.1);
     // bottom black stripe
-    ctx.fillRect(0, 560, game.width, 40);
+    ctx.fillRect(0, rowHeight*13.9, game.width, rowHeight*1.1);
     //  Score and high score text
     ctx.font = 'bold 24px VT323';
     ctx.fillStyle = "white";
@@ -297,7 +300,7 @@ function drawBackground() {
 function drawFrog() {
     // If alive draws the frog with it's new position values
     if ( facing == 'left' ) {
-        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, 30, 22);
+        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     else if ( facing == 'up' ) {
@@ -321,24 +324,24 @@ function drawFrog() {
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveValid(frogX-32, frogY)) {
+    if (keypress == 37 && isMoveOnScreen(frogX-32, frogY)) {
         frogX -= 40;
         facing = 'left';
         ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 38 && isMoveValid(frogX, frogY-40)) {
+    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-40)) {
         frogY -= 40;
         facing = 'up';
         currentScore += 10;
         ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
 
     }
-    else if (keypress == 39 && isMoveValid(frogX+32, frogY)) {
+    else if (keypress == 39 && isMoveOnScreen(frogX+32, frogY)) {
         frogX += 40;
         facing = 'right';
         ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 40 && isMoveValid(frogX, frogY+40)) {
+    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+40)) {
         frogY += 40;
         facing = 'down';
         currentScore -= 10;
@@ -347,23 +350,11 @@ function move(keypress) {
 }
 
 // Check if proposed move is valid (on screen)
-function isMoveValid(x,y) {
-    if (x >= 0 && x < 420 && y > 89 && y < 560 ) {
+function isMoveOnScreen(x,y) {
+    if (x >= 0 && x < game.width-frogWidth && y > rowHeight && y < game.height-rowHeight) {
         return true;
-    } else if(y > 30 && y < 90 && (x < 50)){
-        console.log('score1');
-        return true;
-    } else if(y > 30 && y < 90 && (100 < x < 150)){
-        console.log('score2');
-        return true;
-    } else if(y > 30 && y < 90 && (250 < x < 280)){
-        console.log('score3');
-        return true;
-    } else if(y > 30 && y < 90 && (335 < x < 385)){
-        console.log('score4');
-        return true;
-    }
-    else{
+    } 
+    else {
         console.log('false', x, y);
         return false;
     }
