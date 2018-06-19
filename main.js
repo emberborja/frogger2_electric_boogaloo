@@ -248,7 +248,7 @@ function animate() {
 
 // Render background
 function drawBackground() {
-    // water 0 x, 
+    // water
     ctx.fillStyle = '#4d94ff';
     ctx.fillRect(0, rowHeight, game.width, rowHeight*6);
     // road
