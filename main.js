@@ -46,6 +46,11 @@ var startpoint1 = [440, -30, 440, -30, 440, 440, 440];
 var startpoint2 = [613, -206, 616, -206, 636, 473, 473];
 var startpoint3 = [759, -382, 792, -382, 832, 506, 506];
 
+//flags to check for occupied home spaces
+var homeSpaceArray = [0,0,0,0,0];
+//condition to check for all occupied home spaces
+var victoryCheckArray = [1,1,1,1,1];
+
 // OBSTACLES
 // first row: purple yello car, right to left, slow [0]
 // second row: bulldozer car, left to right, slow [1]
@@ -230,6 +235,23 @@ function drawBackground() {
     // safe zone middle
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
     // grass
+    if (homeSpaceArray[0] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, 30, 22);
+    };
+    if (homeSpaceArray[1] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, 30, 22);
+    };
+    if (homeSpaceArray[2] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, 30, 22);
+    };
+    if (homeSpaceArray[3] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, 30, 22);
+    };
+    if (homeSpaceArray[4] > 0){
+      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
+    };
+
+
     ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
     // top black stripe
     ctx.fillStyle = '#000';
@@ -426,9 +448,13 @@ function logRide() {
 
 
 function reset() {
-
     posX = 200;
     posY = 530;
+    if (JSON.stringify(homeSpaceArray) == JSON.stringify(victoryCheckArray)){
+      console.log('Victory!')
+      homeSpaceArray = [0,0,0,0,0];
+      lives++;
+      }
     if (!winner()) {
         score = 0;
         currentScore = 0;
@@ -440,12 +466,47 @@ function reset() {
 }
 
 function winner() {
-    if (posY == 50) {
-        currentScore = score + 300;
-
-        console.log("Congratu-fucking-lations!");
-        reset();
-
+      if (((posY == 50) && (posX > 5 && posX < 25)) && homeSpaceArray[0] == 0) {
+          currentScore = score + 300;
+          homeSpaceArray[0]++;
+          console.log(posX);
+          reset();
+      } else
+      if (((posY == 50) && (posX > 95 && posX < 115)) && homeSpaceArray[1] == 0) {
+          currentScore = score + 300;
+          homeSpaceArray[1]++;
+          console.log(posX);
+          reset();
+      } else
+      if (((posY == 50) && (posX > 190 && posX < 215)) && homeSpaceArray[2] == 0) {
+          currentScore = score + 300;
+          homeSpaceArray[2]++;
+          console.log(posX);
+          reset();
+      } else
+      if (((posY == 50) && (posX > 285 && posX < 305)) && homeSpaceArray[3] == 0) {
+          currentScore = score + 300;
+          homeSpaceArray[3]++;
+          console.log(posX);
+          reset();
+      } else
+      if (((posY == 50) && (posX > 378 && posX < 398)) && homeSpaceArray[4] == 0) {
+          currentScore = score + 300;
+          homeSpaceArray[4]++;
+          console.log(posX);
+          reset();
+      } else
+      if (posY == 50){
+        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+        lives--;
+        posX = 200;
+        posY = 530;
+        facing = 'dead';
+        if (lives == 0) {
+            // Display losing message
+            ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+      }
     }
+
     return true;
 }
