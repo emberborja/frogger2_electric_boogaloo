@@ -32,6 +32,8 @@ var frogX = 200;
 var frogY = 530;
 var facing = 'up';
 
+var rowHeight = 40;
+
 // Sets game speed by rendering a frame every xx milliseconds
 var gameSpeed = 30;
 
@@ -280,24 +282,24 @@ function drawFrog() {
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveValid(frogX-32, frogY)) {
+    if (keypress == 37 && isMoveOnScreen(frogX-32, frogY)) {
         frogX -= 40;
         facing = 'left';
         ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 38 && isMoveValid(frogX, frogY-40)) {
+    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-40)) {
         frogY -= 40;
         facing = 'up';
         currentScore += 10;
         ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
 
     }
-    else if (keypress == 39 && isMoveValid(frogX+32, frogY)) {
+    else if (keypress == 39 && isMoveOnScreen(frogX+32, frogY)) {
         frogX += 40;
         facing = 'right';
         ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 40 && isMoveValid(frogX, frogY+40)) {
+    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+40)) {
         frogY += 40;
         facing = 'down';
         currentScore -= 10;
@@ -306,23 +308,11 @@ function move(keypress) {
 }
 
 // Check if proposed move is valid (on screen)
-function isMoveValid(x,y) {
-    if (x >= 0 && x < 420 && y > 89 && y < 560 ) {
+function isMoveOnScreen(x,y) {
+    if (x >= 0 && x < game.width-frogWidth && y > rowHeight && y < game.height-rowHeight) {
         return true;
-    } else if(y > 30 && y < 90 && (x < 50)){
-        console.log('score1');
-        return true;
-    } else if(y > 30 && y < 90 && (100 < x < 150)){
-        console.log('score2');
-        return true;
-    } else if(y > 30 && y < 90 && (250 < x < 280)){
-        console.log('score3');
-        return true;
-    } else if(y > 30 && y < 90 && (335 < x < 385)){
-        console.log('score4');
-        return true;
-    }
-    else{
+    } 
+    else {
         console.log('false', x, y);
         return false;
     }
