@@ -17,8 +17,15 @@ gameOverSprite.src = 'assets/gameOverSprite.png';
 var score = 0;
 var currentScore = 0;
 var highScore = 0;
+if (window.localStorage['highScore']) {
+    highScore = localStorage['highScore'];
+} 
 
 var lives = 3;
+
+// Original Frog Size from Sprite Sheet
+var frogWidth = 30;
+var frogHeight = 22;
 
 // Frog position
 var frogX = 200;
@@ -97,7 +104,6 @@ var obstacleArray = [
     new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
 ];
 
-// Adds event listener to trigger everytime there is a keypress. It then passes that keypress into the 'move' function.
 window.addEventListener('keydown',
     function(event) {
         if (lives > 0) {
@@ -204,7 +210,8 @@ function animate() {
 
     // clears the canvas every before rendering new frame.
     ctx.clearRect(0, 0, game.width, game.height);
-    // calls these functions everytime the infinite loop runs
+
+    // calls these functions every frame
     drawBackground();
     // draws the obstacles
     for(var i =0; i < obstacleArray.length; i++){
@@ -224,21 +231,21 @@ function animate() {
 function drawBackground() {
     // water
     ctx.fillStyle = '#4d94ff';
-    ctx.fillRect(0, 40, 440, 240);
+    ctx.fillRect(0, 40, game.width, 240);
     // road
     ctx.fillStyle = '#404040';
-    ctx.fillRect(0, 320, 440, 200);
+    ctx.fillRect(0, 320, game.width, 200);
     // safe zone bottom
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, 440, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 520, game.width, 44);
     // safe zone middle
-    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
+    ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, game.width, 44);
     // grass
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, 440, 44);
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, 38, game.width, 44);
     // top black stripe
     ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, 440, 40);
+    ctx.fillRect(0, 0, game.width, 40);
     // bottom black stripe
-    ctx.fillRect(0, 560, 440, 40);
+    ctx.fillRect(0, 560, game.width, 40);
     //  Score and high score text
     ctx.font = 'bold 24px VT323';
     ctx.fillStyle = "white";
@@ -300,7 +307,7 @@ function move(keypress) {
 
 // Check if proposed move is valid (on screen)
 function isMoveValid(x,y) {
-    if (x > 2 && x < 420 && y > 89 && y < 560 ) {
+    if (x >= 0 && x < 420 && y > 89 && y < 560 ) {
         return true;
     } else if(y > 30 && y < 90 && (x < 50)){
         console.log('score1');
@@ -316,7 +323,7 @@ function isMoveValid(x,y) {
         return true;
     }
     else{
-        console.log('false');
+        console.log('false', x, y);
         return false;
     }
 }
@@ -324,14 +331,12 @@ function isMoveValid(x,y) {
 
 // GAME LOGIC
 function gameLogic() {
-    // If statement to only display highest currentScore
-    if (score < currentScore) {
+    // If statement to prevent score from decrementing, currentScore
+    // is never shown.
+    if (currentScore > score) {
         score = currentScore;
     }
 
-    if (window.localStorage['highScore']) {
-        highScore = localStorage['highScore'];
-    } else highScore = 0;
     if (score > highScore) {
         localStorage['highScore'] = score;
         highScore = score;
