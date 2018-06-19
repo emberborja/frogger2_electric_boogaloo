@@ -30,8 +30,8 @@ var lives = 3;
 var currentScore = 0;
 
 // Frog position
-var posX = 200;
-var posY = 530;
+var frogX = 200;
+var frogY = 530;
 var facing = 'up';
 
 // Time variable
@@ -235,18 +235,24 @@ function drawBackground() {
     // safe zone middle
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, 280, 440, 44);
     // grass
+
+    //if first homeSpaceArray flag is triggered, first home space is occupied
     if (homeSpaceArray[0] > 0){
       ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, 30, 22);
     };
+    //if second homeSpaceArray flag is triggered, second home space is occupied
     if (homeSpaceArray[1] > 0){
       ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, 30, 22);
     };
+    //if third homeSpaceArray flag is triggered, third home space is occupied
     if (homeSpaceArray[2] > 0){
       ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, 30, 22);
     };
+    //if fourth homeSpaceArray flag is triggered, fourth home space is occupied
     if (homeSpaceArray[3] > 0){
       ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, 30, 22);
     };
+    //if fifth homeSpaceArray flag is triggered, fifth home space is occupied
     if (homeSpaceArray[4] > 0){
       ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
     };
@@ -268,52 +274,52 @@ function drawBackground() {
 function drawFrog() {
     // If alive draws the frog with it's new position values
     if ( facing == 'left' ) {
-        ctx.drawImage(sprites, 80, 335, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'up' ) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'right' ) {
-        ctx.drawImage(sprites, 12, 335, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, 30, 22);
     }
 
     else if ( facing == 'down' ) {
-        ctx.drawImage(sprites, 74, 365, 30, 22, posX, posY, 30, 22);
+        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, 30, 22);
     }
 
     // If collion occurs draw deathSprite in that position
     else if ( facing == 'dead' ) {
-        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
     }
 }
 
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveValid(posX-32, posY)) {
-        posX -= 40;
+    if (keypress == 37 && isMoveValid(frogX-32, frogY)) {
+        frogX -= 40;
         facing = 'left';
-        ctx.drawImage(sprites, 80, 335, 23, 17, posX, posY, 19, 23);
+        ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 38 && isMoveValid(posX, posY-40)) {
-        posY -= 40;
+    else if (keypress == 38 && isMoveValid(frogX, frogY-40)) {
+        frogY -= 40;
         facing = 'up';
         currentScore += 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
 
     }
-    else if (keypress == 39 && isMoveValid(posX+32, posY)) {
-        posX += 40;
+    else if (keypress == 39 && isMoveValid(frogX+32, frogY)) {
+        frogX += 40;
         facing = 'right';
-        ctx.drawImage(sprites, 12, 335, 23, 17, posX, posY, 19, 23);
+        ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 40 && isMoveValid(posX, posY+40)) {
-        posY += 40;
+    else if (keypress == 40 && isMoveValid(frogX, frogY+40)) {
+        frogY += 40;
         facing = 'down';
         currentScore -= 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, posX, posY, 23, 17);
+        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
     }
 }
 
@@ -376,13 +382,13 @@ function car_collision() {
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
         var obs = obstacleArray[i];
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw/2) && (posX > obs.dx - obs.dw/2))) {
+        if (frogY == obs.dy && ((frogX < obs.dx + obs.dw/2) && (frogX > obs.dx - obs.dw/2))) {
 
            // Decrement lives
            lives--;
 
            facing = 'dead';
-           ctx.drawImage(deathSprite, posX, posY, 30, 22);
+           ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
         }
     }
 }
@@ -396,7 +402,7 @@ function water_collision() {
         // all three to see if frog is in the water
         for (var j = 0; j < 3; j++) {
             obs = obstacleArray[i+j];
-            if (i >= 15 && posY == obs.dy && ((posX > obs.dx + obs.dw) || (posX < obs.dx - obs.dw/2))) {
+            if (i >= 15 && frogY == obs.dy && ((frogX > obs.dx + obs.dw) || (frogX < obs.dx - obs.dw/2))) {
                 count++;
             }
             // If frog is not on any of the three objects in a row then frog
@@ -404,7 +410,7 @@ function water_collision() {
             if (count == 3) {
             facing = 'dead';
             lives--;
-            ctx.drawImage(deathSprite, posX, posY, 30, 22);
+            ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
             }
         }
     }
@@ -417,29 +423,29 @@ function logRide() {
         var obs = obstacleArray[i];
 
         // If frog is on an object in the water
-        if (posY == obs.dy && ((posX < obs.dx + obs.dw) && (posX > obs.dx))) {
+        if (frogY == obs.dy && ((frogX < obs.dx + obs.dw) && (frogX > obs.dx))) {
 
             // Increment frog position according to object speed
             if(obs.direction == 'from left to right'){
                 if(obs.speed == 'slow'){
-                    posX += .5;
+                    frogX += .5;
                 }
                 if(obs.speed == 'medium'){
-                    posX += 1;
+                    frogX += 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX += 1.25;
+                    frogX += 1.25;
                 }
             }
             if(obs.direction == 'from right to left'){
                 if(obs.speed == 'slow'){
-                    posX -= .5;
+                    frogX -= .5;
                 }
                 if(obs.speed == 'medium'){
-                    posX -= 1;
+                    frogX -= 1;
                 }
                 if(obs.speed == 'fast'){
-                    posX -= 1.25;
+                    frogX -= 1.25;
                 }
             }
         }
@@ -448,11 +454,14 @@ function logRide() {
 
 
 function reset() {
-    posX = 200;
-    posY = 530;
+    frogX = 200;
+    frogY = 530;
+    //checks if all home spaces are occupied
     if (JSON.stringify(homeSpaceArray) == JSON.stringify(victoryCheckArray)){
       console.log('Victory!')
+      //clears all home spaces
       homeSpaceArray = [0,0,0,0,0];
+      //awards extra life
       lives++;
       }
     if (!winner()) {
@@ -466,41 +475,52 @@ function reset() {
 }
 
 function winner() {
-      if (((posY == 50) && (posX > 5 && posX < 25)) && homeSpaceArray[0] == 0) {
+      //if frog jumps in first homespace and it is empty
+      if (((frogY == 50) && (frogX > 5 && frogX < 25)) && homeSpaceArray[0] == 0) {
           currentScore = score + 300;
+          //triggers first homespace flag
           homeSpaceArray[0]++;
-          console.log(posX);
+          console.log(frogX);
           reset();
       } else
-      if (((posY == 50) && (posX > 95 && posX < 115)) && homeSpaceArray[1] == 0) {
+      //if frog jumps in second homespace and it is empty
+      if (((frogY == 50) && (frogX > 95 && frogX < 115)) && homeSpaceArray[1] == 0) {
           currentScore = score + 300;
+          //triggers second homespace flag
           homeSpaceArray[1]++;
-          console.log(posX);
+          console.log(frogX);
           reset();
       } else
-      if (((posY == 50) && (posX > 190 && posX < 215)) && homeSpaceArray[2] == 0) {
+      //if frog jumps in third homespace and it is empty
+      if (((frogY == 50) && (frogX > 190 && frogX < 215)) && homeSpaceArray[2] == 0) {
           currentScore = score + 300;
+          //triggers third homespace flag
           homeSpaceArray[2]++;
-          console.log(posX);
+          console.log(frogX);
           reset();
       } else
-      if (((posY == 50) && (posX > 285 && posX < 305)) && homeSpaceArray[3] == 0) {
+      //if frog jumps in fourth homespace and it is empty
+      if (((frogY == 50) && (frogX > 285 && frogX < 305)) && homeSpaceArray[3] == 0) {
           currentScore = score + 300;
+          //triggers fourth homespace flag
           homeSpaceArray[3]++;
-          console.log(posX);
+          console.log(frogX);
           reset();
       } else
-      if (((posY == 50) && (posX > 378 && posX < 398)) && homeSpaceArray[4] == 0) {
+      //if frog jumps in fifth homespace and it is empty
+      if (((frogY == 50) && (frogX > 378 && frogX < 398)) && homeSpaceArray[4] == 0) {
           currentScore = score + 300;
+          //triggers fifth homespace flag
           homeSpaceArray[4]++;
-          console.log(posX);
+          console.log(frogX);
           reset();
       } else
-      if (posY == 50){
-        ctx.drawImage(deathSprite, posX, posY, 30, 22);
+      //if frog doesn't jump in empty homespace
+      if (frogY == 50){
+        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
         lives--;
-        posX = 200;
-        posY = 530;
+        frogX = 200;
+        frogY = 530;
         facing = 'dead';
         if (lives == 0) {
             // Display losing message
