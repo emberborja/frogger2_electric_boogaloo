@@ -242,10 +242,9 @@ function animate() {
     // checks game logic
     gameLogic();
     drawFrog();
-    car_collision();
-    water_collision();
+    carCollision();
+    waterCollision();
     logRide();
-    gameLogic();
     winner();
 }
 
@@ -385,7 +384,7 @@ function gameLogic() {
     }
 }
 
-function car_collision() {
+function carCollision() {
 
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
@@ -401,7 +400,7 @@ function car_collision() {
     }
 }
 
-function water_collision() {
+function waterCollision() {
     for (var i = 15; i < 30; i = i+3) {
         var obs = obstacleArray[i];
         var count = 0;
