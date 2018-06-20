@@ -2,7 +2,7 @@
 var game = document.getElementById('game');
 var ctx = game.getContext('2d');
 var newGameBtn = document.getElementById('newGameBtn');
-
+var pressSpaceToContinue = document.getElementById('pressSpaceToContinue');
 // Include sprites
 var sprites = new Image();
 var deathSprite = new Image();
@@ -62,7 +62,7 @@ var destwidth = [27, 30, 30, 30, 50, 33, 87, 181, 33, 120];
 
 var destheight = [28, 23, 23, 27, 21, 25, 24, 24, 25, 24];
 
-
+pressSpaceToContinue.style.display = 'none';
 newGameBtn.style.display = 'none';
 newGameBtn.onclick = newGame;
 
@@ -249,6 +249,7 @@ function animate() {
     waterCollision();
     logRide();
     winner();
+    pressSpaceToContinue.style.display = 'none';
 }
 
 // Render background
@@ -347,6 +348,10 @@ function move(keypress) {
         status = 'down';
         currentScore -= 10;
     }
+    else if (keypress == 32){
+        frogY = frogY;
+        status = 'up';
+    }
 }
 
 // Check if proposed move is valid (on screen)
@@ -393,6 +398,7 @@ function carCollision() {
            lives--;
 
            status = 'dead';
+          //  pressSpaceToContinue.style.display = 'inline-block';
            ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
         }
     }
@@ -415,6 +421,7 @@ function waterCollision() {
         if (count == 3) {
 
           status = 'dead';
+          // pressSpaceToContinue.style.display = 'inline-block';
           lives--;
           ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
 
@@ -463,6 +470,7 @@ function logRide() {
 function reset() {
     frogX = 200;
     frogY = 530;
+    // keypress =
     //checks if all home spaces are occupied
     if (homeSpaceArray.indexOf(0) == -1){
       console.log('Victory!')
@@ -475,6 +483,9 @@ function reset() {
     if (!winner()) {
         score = 0;
         currentScore = 0;
+    }
+    if (lives != 0){
+      pressSpaceToContinue.style.display = 'inline-block';
     }
     if (lives == 0) {
         // Display losing message
