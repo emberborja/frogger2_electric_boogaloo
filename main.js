@@ -36,7 +36,7 @@ var facing = 'up';
 var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
-var gameSpeed = 10;
+var gameSpeed = 12;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -472,6 +472,7 @@ function reset() {
       homeSpaceArray = [0,0,0,0,0];
       //awards extra life
       lives++;
+      gameSpeed = (gameSpeed * .9)
       }
     if (!winner()) {
         score = 0;
