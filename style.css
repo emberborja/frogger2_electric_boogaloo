@@ -20,6 +20,13 @@ body {
     z-index: 1;
 }
 
+#pressSpaceToContinue{
+  color: red;
+  background: black;
+  font-size: 30px
+  left: 30%;
+}
+
 
 #controls{
   text-align: center;

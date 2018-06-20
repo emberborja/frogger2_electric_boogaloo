@@ -2,7 +2,7 @@
 var game = document.getElementById('game');
 var ctx = game.getContext('2d');
 var newGameBtn = document.getElementById('newGameBtn');
-
+var pressSpaceToContinue = document.getElementById('pressSpaceToContinue');
 // Include sprites
 var sprites = new Image();
 var deathSprite = new Image();
@@ -46,7 +46,7 @@ var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
 
-var gameSpeed = 20;
+var gameSpeed = 12;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -69,7 +69,7 @@ var destwidth = [27, 30, 30, 30, 50, 33, 87, 181, 33, 120];
 
 var destheight = [28, 23, 23, 27, 21, 25, 24, 24, 25, 24];
 
-
+pressSpaceToContinue.style.display = 'none';
 newGameBtn.style.display = 'none';
 newGameBtn.onclick = newGame;
 
@@ -255,8 +255,8 @@ function animate() {
     carCollision();
     waterCollision();
     logRide();
-    gameLogic();
     winner();
+    pressSpaceToContinue.style.display = 'none';
 }
 
 // Render background
@@ -355,6 +355,10 @@ function move(keypress) {
         status = 'down';
         currentScore -= 10;
     }
+    else if (keypress == 32){
+        frogY = frogY;
+        status = 'up';
+    }
 }
 
 // Check if proposed move is valid (on screen)
@@ -399,7 +403,6 @@ function carCollision() {
 
            // Decrement lives
            lives--;
-
            status = 'dead';
            ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
         }
@@ -471,6 +474,7 @@ function logRide() {
 function reset() {
     frogX = frogStartX;
     frogY = frogStartY;
+
     //checks if all home spaces are occupied
     if (homeSpaceArray.indexOf(0) == -1){
       console.log('Victory!')
@@ -478,10 +482,14 @@ function reset() {
       homeSpaceArray = [0,0,0,0,0];
       //awards extra life
       lives++;
+      gameSpeed = (gameSpeed * .9)
       }
     if (!winner()) {
         score = 0;
         currentScore = 0;
+    }
+    if (lives != 0){
+      pressSpaceToContinue.style.display = 'inline-block';
     }
     if (lives == 0) {
         // Display losing message
