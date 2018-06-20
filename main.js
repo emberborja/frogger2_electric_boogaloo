@@ -28,9 +28,16 @@ var lives = 3;
 var frogWidth = 30;
 var frogHeight = 22;
 
-// Frog position
-var frogX = 200;
-var frogY = 530;
+// Frog starting position
+var frogStartX = 200;
+var frogStartY = 530;
+
+
+//Place the frog at the start point initially
+var frogX = frogStartX;
+var frogY = frogStartY;
+
+
 // status decides which sprite to display currently, either a directional
 // frog sprite or the death sprite. [up, down, left, right, dead]
 var status = 'up';
@@ -465,9 +472,9 @@ function logRide() {
 
 
 function reset() {
-    frogX = 200;
-    frogY = 530;
-    // keypress =
+    frogX = frogStartX;
+    frogY = frogStartY;
+
     //checks if all home spaces are occupied
     if (homeSpaceArray.indexOf(0) == -1){
       console.log('Victory!')
@@ -486,7 +493,7 @@ function reset() {
     }
     if (lives == 0) {
         // Display losing message
-        ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+        ctx.drawImage(gameOverSprite, 85, 170, game.width/1.57, game.height/2.14);
         newGameBtn.style.display = 'inline-block';
     }
 }
@@ -501,123 +508,70 @@ function newGame(){
       highScore = localStorage['highScore'];
   }
   lives = 3;
-  frogWidth = 30;
-  frogHeight = 22;
-  frogX = 200;
-  frogY = 530;
+  frogX = frogStartX;
+  frogY = frogStartY;
   status = 'up';
   gameSpeed = 10;
-  logbreakpoint = [527, 621, 560];
-  logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
-  breakpoint = [-27, 470, -30, 470, -50, -33, -33];
-  startpoint1 = [440, -30, 440, -30, 440, 440, 440];
-  startpoint2 = [613, -206, 616, -206, 636, 473, 473];
-  startpoint3 = [759, -382, 792, -382, 832, 506, 506];
-  desty = [490, 450, 410, 370, 330, 250, 210, 170, 130, 120];
-  destwidth = [27, 30, 30, 30, 50, 33, 87, 181, 33, 120];
-  destheight = [28, 23, 23, 27, 21, 25, 24, 24, 25, 24];
+
   homeSpaceArray = [0,0,0,0,0];
   newGameBtn.style.display = 'none';
-  obstacleArray = [
-      // road obstacles
-      // car row 1
-      new Obstacle(sprites, 80, 262, 27, 28, startpoint1[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
-      new Obstacle(sprites, 80, 262, 27, 28, startpoint2[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
-      new Obstacle(sprites, 80, 262, 27, 28, startpoint3[0], 490, 27, 28, 'from right to left', 'slow', breakpoint[0]),
-      // car row 2
-      new Obstacle(sprites, 70, 300, 30, 23, startpoint1[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
-      new Obstacle(sprites, 70, 300, 30, 23, startpoint2[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
-      new Obstacle(sprites, 70, 300, 30, 23, startpoint3[1], 450, 30, 23, 'from left to right', 'slow', breakpoint[1]),
-      // car row 3
-      new Obstacle(sprites, 10, 265, 30, 23, startpoint1[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
-      new Obstacle(sprites, 10, 265, 30, 23, startpoint2[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
-      new Obstacle(sprites, 10, 265, 30, 23, startpoint3[2], 410, 30, 23, 'from right to left', 'medium', breakpoint[2]),
-      // car row 4
-      new Obstacle(sprites, 45, 263, 30, 27, startpoint1[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
-      new Obstacle(sprites, 45, 263, 30, 27, startpoint2[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
-      new Obstacle(sprites, 45, 263, 30, 27, startpoint3[3], 370, 30, 27, 'from left to right', 'medium', breakpoint[3]),
-      // car row 5
-      new Obstacle(sprites, 105, 300, 50, 21, startpoint1[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
-      new Obstacle(sprites, 105, 300, 50, 21, startpoint2[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
-      new Obstacle(sprites, 105, 300, 50, 21, startpoint3[4], 330, 50, 21, 'from right to left', 'fast', breakpoint[4]),
-      // water obstacles
-      // water row 1
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint1[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint2[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint3[5], 250, 33, 25, 'from right to left', 'slow', breakpoint[5]),
-      // water row 2
-      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[0], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
-      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[1], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
-      new Obstacle(sprites, 6, 228, 87, 24, logstartpoint[2], 210, 87, 24, 'from left to right', 'slow', logbreakpoint[0]),
-      // water row 3
-      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[3], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
-      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[4], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
-      new Obstacle(sprites, 6, 164, 181, 24, logstartpoint[5], 170, 181, 24, 'from left to right', 'fast', logbreakpoint[1]),
-      // water row 4
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint1[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint2[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
-      new Obstacle(sprites, 14, 405, 33, 25, startpoint3[6], 130, 33, 25, 'from right to left', 'fast', breakpoint[6]),
-      // water row 5
-      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[6], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
-      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[7], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2]),
-      new Obstacle(sprites, 6, 196, 120, 24, logstartpoint[8], 90, 120, 24, 'from left to right', 'medium', logbreakpoint[2])
-  ];
 }
 
 function winner() {
-
-      //if frog jumps in first homespace and it is empty
-      if (((frogY == 50) && (frogX > 5 && frogX < 25)) && homeSpaceArray[0] == 0) {
-          currentScore = score + 300;
-          //triggers first homespace flag
-          homeSpaceArray[0]++;
-          console.log(frogX);
-          reset();
-      } else
-      //if frog jumps in second homespace and it is empty
-      if (((frogY == 50) && (frogX > 95 && frogX < 115)) && homeSpaceArray[1] == 0) {
-          currentScore = score + 300;
-          //triggers second homespace flag
-          homeSpaceArray[1]++;
-          console.log(frogX);
-          reset();
-      } else
-      //if frog jumps in third homespace and it is empty
-      if (((frogY == 50) && (frogX > 190 && frogX < 215)) && homeSpaceArray[2] == 0) {
-          currentScore = score + 300;
-          //triggers third homespace flag
-          homeSpaceArray[2]++;
-          console.log(frogX);
-          reset();
-      } else
-      //if frog jumps in fourth homespace and it is empty
-      if (((frogY == 50) && (frogX > 285 && frogX < 305)) && homeSpaceArray[3] == 0) {
-          currentScore = score + 300;
-          //triggers fourth homespace flag
-          homeSpaceArray[3]++;
-          console.log(frogX);
-          reset();
-      } else
-      //if frog jumps in fifth homespace and it is empty
-      if (((frogY == 50) && (frogX > 378 && frogX < 398)) && homeSpaceArray[4] == 0) {
-          currentScore = score + 300;
-          //triggers fifth homespace flag
-          homeSpaceArray[4]++;
-          console.log(frogX);
-          reset();
-      } else
-      //if frog doesn't jump in empty homespace
-      if (frogY == 50){
-        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
-        lives--;
-        frogX = 200;
-        frogY = 530;
-        status = 'dead';
-        if (lives == 0) {
-            // Display losing message
-            ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
-            newGameBtn.style.display = 'inline-block';
-      }
+    //if frog jumps in first homespace and it is empty
+    if (frogY == 50) {
+        if (frogX > 5 && frogX < 25 && homeSpaceArray[0] == 0) {
+            currentScore = score + 300;
+            //triggers first homespace flag
+            homeSpaceArray[0]++;
+            // console.log(frogX);
+            reset();
+        } 
+        //if frog jumps in second homespace and it is empty
+        else if (frogX > 95 && frogX < 115 && homeSpaceArray[1] == 0) {
+            currentScore = score + 300;
+            //triggers second homespace flag
+            homeSpaceArray[1]++;
+            // console.log(frogX);
+            reset();
+            }
+        //if frog jumps in third homespace and it is empty
+        else if (frogX > 190 && frogX < 215 && homeSpaceArray[2] == 0) {
+            currentScore = score + 300;
+            //triggers third homespace flag
+            homeSpaceArray[2]++;
+            // console.log(frogX);
+            reset();
+            }
+        //if frog jumps in fourth homespace and it is empty
+        else if (frogX > 285 && frogX < 305 && homeSpaceArray[3] == 0) {
+            currentScore = score + 300;
+            //triggers fourth homespace flag
+            homeSpaceArray[3]++;
+            // console.log(frogX);
+            reset();
+            }
+        //if frog jumps in fifth homespace and it is empty
+        else if (frogX > 378 && frogX < 398 && homeSpaceArray[4] == 0) {
+            currentScore = score + 300;
+            //triggers fifth homespace flag
+            homeSpaceArray[4]++;
+            // console.log(frogX);
+            reset();
+            }
+        //if frog doesn't jump in empty homespace
+        else {
+            ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+            lives--;
+            frogX = 200;
+            frogY = 530;
+            status = 'dead';
+            if (lives == 0) {
+                // Display losing message
+                ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
+                newGameBtn.style.display = 'inline-block';
+            }
+        }
     }
 
     return true;
