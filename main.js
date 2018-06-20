@@ -396,9 +396,7 @@ function carCollision() {
 
            // Decrement lives
            lives--;
-
            status = 'dead';
-          //  pressSpaceToContinue.style.display = 'inline-block';
            ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
         }
     }
@@ -421,7 +419,6 @@ function waterCollision() {
         if (count == 3) {
 
           status = 'dead';
-          // pressSpaceToContinue.style.display = 'inline-block';
           lives--;
           ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
 
