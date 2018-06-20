@@ -31,11 +31,14 @@ var frogHeight = 22;
 // Frog position
 var frogX = 200;
 var frogY = 530;
-var facing = 'up';
+// status decides which sprite to display currently, either a directional
+// frog sprite or the death sprite. [up, down, left, right, dead]
+var status = 'up';
 
 var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
+
 var gameSpeed = 12;
 
 var logbreakpoint = [527, 621, 560];
@@ -219,7 +222,7 @@ function Obstacle(source, sourcex, sourcey, sourcewidth, sourceheight, destx, de
 setInterval(gameTime, gameSpeed);
 
 function gameTime() {
-    if (facing != 'dead') {
+    if (status != 'dead') {
         animate();
     }
     else {
@@ -261,29 +264,29 @@ function drawBackground() {
     // safe zone middle
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*7, game.width, rowHeight);
     // grass
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, 44);
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, rowHeight);
 
 
 
     //if first homeSpaceArray flag is triggered, first home space is occupied
     if (homeSpaceArray[0] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, frogWidth, frogHeight);
     };
     //if second homeSpaceArray flag is triggered, second home space is occupied
     if (homeSpaceArray[1] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, frogWidth, frogHeight);
     };
     //if third homeSpaceArray flag is triggered, third home space is occupied
     if (homeSpaceArray[2] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, frogWidth, frogHeight);
     };
     //if fourth homeSpaceArray flag is triggered, fourth home space is occupied
     if (homeSpaceArray[3] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, frogWidth, frogHeight);
     };
     //if fifth homeSpaceArray flag is triggered, fifth home space is occupied
     if (homeSpaceArray[4] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, frogWidth, frogHeight);
     };
 
 
@@ -301,53 +304,48 @@ function drawBackground() {
 
 function drawFrog() {
     // If alive draws the frog with it's new position values
-    if ( facing == 'left' ) {
+    if ( status == 'left' ) {
         ctx.drawImage(sprites, 80, 335, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
-    else if ( facing == 'up' ) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, 30, 22);
+    else if ( status == 'up' ) {
+        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
-    else if ( facing == 'right' ) {
-        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, 30, 22);
+    else if ( status == 'right' ) {
+        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
-    else if ( facing == 'down' ) {
-        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, 30, 22);
+    else if ( status == 'down' ) {
+        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     // If collion occurs draw deathSprite in that position
-    else if ( facing == 'dead' ) {
-        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+    else if ( status == 'dead' ) {
+        ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
     }
 }
 
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveOnScreen(frogX-32, frogY)) {
-        frogX -= 40;
-        facing = 'left';
-        ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
+    if (keypress == 37 && isMoveOnScreen(frogX-rowHeight, frogY)) {
+        frogX -= rowHeight;
+        status = 'left';
     }
-    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-40)) {
-        frogY -= 40;
-        facing = 'up';
+    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-rowHeight)) {
+        frogY -= rowHeight;
+        status = 'up';
         currentScore += 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
-
     }
-    else if (keypress == 39 && isMoveOnScreen(frogX+32, frogY)) {
-        frogX += 40;
-        facing = 'right';
-        ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
+    else if (keypress == 39 && isMoveOnScreen(frogX+rowHeight, frogY)) {
+        frogX += rowHeight;
+        status = 'right';
     }
-    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+40)) {
-        frogY += 40;
-        facing = 'down';
+    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+rowHeight)) {
+        frogY += rowHeight;
+        status = 'down';
         currentScore -= 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
     }
 }
 
@@ -394,8 +392,8 @@ function carCollision() {
            // Decrement lives
            lives--;
 
-           facing = 'dead';
-           ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+           status = 'dead';
+           ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
         }
     }
 }
@@ -416,9 +414,9 @@ function waterCollision() {
             // is dead
         if (count == 3) {
 
-          facing = 'dead';
+          status = 'dead';
           lives--;
-          ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+          ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
 
             }
         }
@@ -499,7 +497,7 @@ function newGame(){
   frogHeight = 22;
   frogX = 200;
   frogY = 530;
-  facing = 'up';
+  status = 'up';
   gameSpeed = 10;
   logbreakpoint = [527, 621, 560];
   logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -606,7 +604,7 @@ function winner() {
         lives--;
         frogX = 200;
         frogY = 530;
-        facing = 'dead';
+        status = 'dead';
         if (lives == 0) {
             // Display losing message
             ctx.drawImage(gameOverSprite, 85, 170, 280, 280);
