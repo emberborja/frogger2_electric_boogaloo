@@ -36,7 +36,7 @@ var facing = 'up';
 var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
-var gameSpeed = 10;
+var gameSpeed = 30;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
@@ -242,8 +242,8 @@ function animate() {
     // checks game logic
     gameLogic();
     drawFrog();
-    car_collision();
-    water_collision();
+    carCollision();
+    waterCollision();
     logRide();
     gameLogic();
     winner();
@@ -262,29 +262,29 @@ function drawBackground() {
     // safe zone middle
     ctx.drawImage(sprites, 0, 120, 399, 35, 0, rowHeight*7, game.width, rowHeight);
     // grass
-    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, 44);
+    ctx.drawImage(sprites, 0, 54, 399, 56, 0, rowHeight, game.width, rowHeight);
 
 
 
     //if first homeSpaceArray flag is triggered, first home space is occupied
     if (homeSpaceArray[0] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 15, 50, frogWidth, frogHeight);
     };
     //if second homeSpaceArray flag is triggered, second home space is occupied
     if (homeSpaceArray[1] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 105, 50, frogWidth, frogHeight);
     };
     //if third homeSpaceArray flag is triggered, third home space is occupied
     if (homeSpaceArray[2] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 200, 50, frogWidth, frogHeight);
     };
     //if fourth homeSpaceArray flag is triggered, fourth home space is occupied
     if (homeSpaceArray[3] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 295, 50, frogWidth, frogHeight);
     };
     //if fifth homeSpaceArray flag is triggered, fifth home space is occupied
     if (homeSpaceArray[4] > 0){
-      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, 30, 22);
+      ctx.drawImage(sprites, 74, 365, 30, 22, 388, 50, frogWidth, frogHeight);
     };
 
 
@@ -307,48 +307,43 @@ function drawFrog() {
     }
 
     else if ( facing == 'up' ) {
-        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, 30, 22);
+        ctx.drawImage(sprites, 10, 365, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     else if ( facing == 'right' ) {
-        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, 30, 22);
+        ctx.drawImage(sprites, 12, 335, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     else if ( facing == 'down' ) {
-        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, 30, 22);
+        ctx.drawImage(sprites, 74, 365, 30, 22, frogX, frogY, frogWidth, frogHeight);
     }
 
     // If collion occurs draw deathSprite in that position
     else if ( facing == 'dead' ) {
-        ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+        ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
     }
 }
 
 // Frog movement
 function move(keypress) {
 
-    if (keypress == 37 && isMoveOnScreen(frogX-32, frogY)) {
-        frogX -= 40;
+    if (keypress == 37 && isMoveOnScreen(frogX-rowHeight, frogY)) {
+        frogX -= rowHeight;
         facing = 'left';
-        ctx.drawImage(sprites, 80, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-40)) {
-        frogY -= 40;
+    else if (keypress == 38 && isMoveOnScreen(frogX, frogY-rowHeight)) {
+        frogY -= rowHeight;
         facing = 'up';
         currentScore += 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
-
     }
-    else if (keypress == 39 && isMoveOnScreen(frogX+32, frogY)) {
-        frogX += 40;
+    else if (keypress == 39 && isMoveOnScreen(frogX+rowHeight, frogY)) {
+        frogX += rowHeight;
         facing = 'right';
-        ctx.drawImage(sprites, 12, 335, 23, 17, frogX, frogY, 19, 23);
     }
-    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+40)) {
-        frogY += 40;
+    else if (keypress == 40 && isMoveOnScreen(frogX, frogY+rowHeight)) {
+        frogY += rowHeight;
         facing = 'down';
         currentScore -= 10;
-        ctx.drawImage(sprites, 12, 369, 23, 17, frogX, frogY, 23, 17);
     }
 }
 
@@ -385,7 +380,7 @@ function gameLogic() {
     }
 }
 
-function car_collision() {
+function carCollision() {
 
      // For loop to check every obstacleX
     for (var i = 0; i < 15; i++) {
@@ -396,12 +391,12 @@ function car_collision() {
            lives--;
 
            facing = 'dead';
-           ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+           ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
         }
     }
 }
 
-function water_collision() {
+function waterCollision() {
     for (var i = 15; i < 30; i = i+3) {
         var obs = obstacleArray[i];
         var count = 0;
@@ -419,7 +414,7 @@ function water_collision() {
 
           facing = 'dead';
           lives--;
-          ctx.drawImage(deathSprite, frogX, frogY, 30, 22);
+          ctx.drawImage(deathSprite, frogX, frogY, frogWidth, frogHeight);
 
             }
         }
