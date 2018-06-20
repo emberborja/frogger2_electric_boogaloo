@@ -1,0 +1,25 @@
+{
+  "name": "frogger",
+  "version": "1.0.0",
+  "description": "## Installation instructions",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bootcamp-s18/frogger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bootcamp-s18/frogger/issues"
+  },
+  "homepage": "https://github.com/bootcamp-s18/frogger#readme",
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
+}
