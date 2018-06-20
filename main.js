@@ -36,7 +36,8 @@ var facing = 'up';
 var rowHeight = game.height/15;
 
 // Sets game speed by rendering a frame every xx milliseconds
-var gameSpeed = 30;
+
+var gameSpeed = 20;
 
 var logbreakpoint = [527, 621, 560];
 var logstartpoint = [-87, -320, -553, -181, -508, -835, -120, -386, -652];
