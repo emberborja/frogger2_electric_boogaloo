@@ -1,11 +1,17 @@
 {
-  "name": "frogger2ElectricBoogaloo",
-  "version": "1.0.0",
+  "name": "frogger2electricboogaloo",
+  "version": "1.0.2",
   "description": "frogger2 revenge of the frog",
-  "main": "index.js",
+  "main": "dist/frogger2electricboogaloo.min.js",
   "scripts": {
-    "start": "webpack-dev-server --open --config ./webpack.config.js --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src",
+    "v:patch": "npm version --no-git-tag-version patch",
+    "build": "npm run v:patch && webpack --env.production",
+    "start": "webpack-dev-server --open --progress --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RyanBorja/frogger2_electric_boogaloo.git"
   },
   "keywords": [
     "frogger"

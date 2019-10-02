@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Hello Webpack</title>
+    <link rel="icon" href="./dist/assets/frog.png" />
+    <meta charset="utf-8" />
+    <title>Frogger</title>
+    <link rel="stylesheet" href="./dist/style.css" />
   </head>
+
   <body>
-    <div>
-      <h1>Hello Webpack Test</h1>
+    <div id="game-div">
+      <canvas id="game" width="440px" height="600"></canvas>
+      <div id="controls">
+        <button id="newGameBtn">NEW GAME?</button>
+        <p id="pressSpaceToContinue">PRESS SPACE TO CONTINUE</p>
+      </div>
     </div>
-    <script src="./bundle.js"></script>
+    <img id="sprite-page" src="./dist/assets/frogger-sprites.png" />
+    <img id="death-sprite" src="./dist/assets/skull-sprite.png" />
+    <img id="gameOverSprite" src="./dist/assets/gameOverSprite.png" />
+
+    <script src="./dist/frogger2electricboogaloo.min.js"></script>
   </body>
 </html>
