@@ -1,6 +1,6 @@
 {
   "name": "frogger2electricboogaloo",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "frogger2 revenge of the frog",
   "main": "dist/frogger2electricboogaloo.min.js",
   "scripts": {

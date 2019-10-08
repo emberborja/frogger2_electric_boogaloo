@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="icon" href="./dist/assets/frog.png" />
-    <meta charset="utf-8" />
-    <title>Frogger</title>
-    <link rel="stylesheet" href="./dist/style.css" />
-  </head>
 
-  <body>
-    <div id="game-div">
-      <canvas id="game" width="440px" height="600"></canvas>
-      <div id="controls">
-        <button id="newGameBtn">NEW GAME?</button>
-        <p id="pressSpaceToContinue">PRESS SPACE TO CONTINUE</p>
-      </div>
-    </div>
-    <img id="sprite-page" src="./dist/assets/frogger-sprites.png" />
-    <img id="death-sprite" src="./dist/assets/skull-sprite.png" />
-    <img id="gameOverSprite" src="./dist/assets/gameOverSprite.png" />
+<head>
+  <link rel="icon" href="./dist/assets/frog.png" />
+  <meta charset="utf-8" />
+  <title>Frogger</title>
+  <link rel="stylesheet" href="./dist/style.css" />
+  <script src="./dist/frogger2electricboogaloo.min.js"></script>
+</head>
 
-    <script src="./dist/frogger2electricboogaloo.min.js"></script>
-  </body>
+<body>
+  <div id="game-div">
+    <canvas id="game" width="440" height="600" style="border: 1px solid black;"></canvas>
+  </div>
+  <!-- <img id="sprite-page" src="./dist/assets/frogger-sprites.png" /> -->
+  <!-- <img id="death-sprite" src="./dist/assets/skull-sprite.png" /> -->
+  <!-- <img id="gameOverSprite" src="./dist/assets/gameOverSprite.png" /> -->
+  <script>
+    let test = new Frogger('game-div');
+  </script>
+</body>
+
 </html>
